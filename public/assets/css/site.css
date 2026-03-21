@@ -1,43 +1,70 @@
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap");
 
 :root {
-  --paper: #f3efe8;
-  --paper-deep: #e5dfd6;
-  --paper-soft: #faf8f4;
-  --ink: #141412;
-  --ink-soft: #2c2b28;
-  --ash: #66625b;
-  --ash-soft: #8e887e;
-  --line: rgba(20, 20, 18, 0.12);
-  --line-strong: rgba(20, 20, 18, 0.24);
-  --panel: rgba(250, 248, 244, 0.8);
-  --panel-dark: linear-gradient(135deg, #121210 0%, #2d2c29 100%);
-  --shadow: 0 20px 60px rgba(20, 20, 18, 0.08);
-  --shadow-soft: 0 10px 30px rgba(20, 20, 18, 0.06);
-  --radius-lg: 32px;
-  --radius-md: 22px;
-  --radius-sm: 14px;
-  --max-width: 1240px;
+  /* Common */
+  --radius-lg: 40px;
+  --radius-md: 24px;
+  --radius-sm: 16px;
+  --max-width: 1100px;
+  --transition: 400ms cubic-bezier(0.23, 1, 0.32, 1);
+  --monaco: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", monospace;
+  --serif: "Cormorant Garamond", serif;
+  --sans: "Space Grotesk", sans-serif;
+
+  /* Theme: Light (Duo-inspired) */
+  --bg: #ffffff;
+  --bg-soft: #fcfcfc;
+  --bg-deep: #f5f5f5;
+  --ink: #131313;
+  --ink-soft: #4a4a4a;
+  --ash: #888888;
+  --ash-soft: #e5e5e5;
+  --line: rgba(19, 19, 19, 0.05);
+  --line-strong: rgba(19, 19, 19, 0.1);
+  --panel: #ffffff;
+  --panel-dark: #fafafa;
+  --shadow: 0 30px 60px rgba(0, 0, 0, 0.03);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.02);
+  --logo-primary: #131313;
+  --logo-secondary: #e5e5e5;
+}
+
+[data-theme="dark"] {
+  --bg: #000000;
+  --bg-soft: #0a0a0a;
+  --bg-deep: #050505;
+  --ink: #ffffff;
+  --ink-soft: #bbbbbb;
+  --ash: #777777;
+  --ash-soft: #222222;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --panel: #0a0a0a;
+  --panel-dark: #050505;
+  --shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --logo-primary: #ffffff;
+  --logo-secondary: #222222;
 }
 
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  font-family: "Space Grotesk", sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(20, 20, 18, 0.08), transparent 25%),
-    radial-gradient(circle at bottom right, rgba(20, 20, 18, 0.08), transparent 30%),
-    linear-gradient(180deg, var(--paper-soft) 0%, var(--paper) 100%);
-  line-height: 1.65;
+  font-family: var(--sans);
+  background-color: var(--bg);
+  line-height: 1.6;
+  transition: background-color var(--transition), color var(--transition);
 }
 
 a {
@@ -59,22 +86,22 @@ img {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(20, 20, 18, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(20, 20, 18, 0.025) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(circle at center, black 18%, transparent 82%);
-  opacity: 0.8;
+    linear-gradient(to right, var(--line) 0.5px, transparent 0.5px),
+    linear-gradient(to bottom, var(--line) 0.5px, transparent 0.5px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
+  opacity: 0.6;
 }
 
 .grain-layer {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.03;
   background-image:
-    radial-gradient(circle at 20% 20%, rgba(20, 20, 18, 0.45) 0.6px, transparent 0.8px),
-    radial-gradient(circle at 80% 30%, rgba(20, 20, 18, 0.3) 0.6px, transparent 0.8px),
-    radial-gradient(circle at 35% 75%, rgba(20, 20, 18, 0.2) 0.6px, transparent 0.8px);
+    radial-gradient(circle at 20% 20%, var(--ink) 0.6px, transparent 0.8px),
+    radial-gradient(circle at 80% 30%, var(--ink) 0.6px, transparent 0.8px),
+    radial-gradient(circle at 35% 75%, var(--ink) 0.2px, transparent 0.8px);
   background-size: 24px 24px;
 }
 
@@ -98,18 +125,27 @@ img {
 
 .brand {
   text-decoration: none;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
 }
 
 .brand span {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.24em;
+  font-family: var(--monaco);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  margin-left: 0.4rem;
+  color: var(--ash);
+  margin-left: 2px;
 }
 
 .top-nav {
@@ -133,17 +169,17 @@ img {
 .top-nav a:hover,
 .rail-link:hover,
 .rail-link.is-active {
-  border-color: var(--line-strong);
-  background: rgba(20, 20, 18, 0.05);
+  border-color: var(--ink);
+  background: var(--bg-soft);
   transform: translateY(-1px);
 }
 
 .page-stack {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 40px 28px 96px;
+  padding: 80px 28px 120px;
   display: grid;
-  gap: 28px;
+  gap: 80px;
 }
 
 .hero-panel,
@@ -155,18 +191,16 @@ img {
 .side-rail,
 .table-wrap {
   border: 1px solid var(--line);
-  background: var(--panel);
-  backdrop-filter: blur(16px);
+  background: var(--bg);
   box-shadow: var(--shadow-soft);
+  transition: all var(--transition);
 }
 
 .hero-panel {
   padding: clamp(28px, 6vw, 64px);
   border-radius: var(--radius-lg);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent),
-    var(--panel-dark);
-  color: var(--paper-soft);
+  background-color: var(--panel-dark);
+  color: var(--ink);
   overflow: hidden;
 }
 
@@ -183,16 +217,16 @@ img {
 
 .eyebrow,
 .card-kicker {
-  margin: 0 0 12px;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
+  margin: 0 0 16px;
+  font-family: var(--monaco);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--ash-soft);
+  color: var(--ash);
 }
 
 .hero-panel .eyebrow {
-  color: rgba(250, 248, 244, 0.72);
+  color: var(--ash);
 }
 
 .hero-title,
@@ -206,14 +240,15 @@ img {
 .folder-card h3,
 .side-rail h2 {
   margin: 0;
-  font-family: "Cormorant Garamond", serif;
-  line-height: 0.98;
-  letter-spacing: -0.04em;
+  font-family: var(--serif);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 500;
 }
 
 .hero-title {
-  max-width: 11ch;
-  font-size: clamp(3.2rem, 9vw, 6.4rem);
+  max-width: 14ch;
+  font-size: clamp(2.8rem, 8vw, 5.2rem);
 }
 
 .hero-copy,
@@ -234,7 +269,7 @@ img {
 .hero-copy {
   margin-top: 20px;
   max-width: 58ch;
-  color: rgba(250, 248, 244, 0.8);
+  color: var(--ink-soft);
   font-size: 1.02rem;
 }
 
@@ -264,14 +299,14 @@ img {
 }
 
 .button-primary {
-  background: var(--paper-soft);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--bg);
   border: 1px solid transparent;
 }
 
 .button-secondary {
-  border: 1px solid rgba(250, 248, 244, 0.28);
-  color: var(--paper-soft);
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
   background: transparent;
 }
 
@@ -300,20 +335,20 @@ img {
 
 .hero-strip-item {
   padding: 16px 18px;
-  border: 1px solid rgba(250, 248, 244, 0.16);
+  border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  background: rgba(250, 248, 244, 0.05);
+  background: var(--bg-soft);
   font-size: 0.94rem;
 }
 
 .hero-strip-item span {
   display: block;
   margin-bottom: 6px;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: var(--monaco);
   font-size: 0.68rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(250, 248, 244, 0.58);
+  color: var(--ash);
 }
 
 .showcase-grid,
@@ -428,7 +463,8 @@ img {
 
 .section-head h2,
 .library-title {
-  font-size: clamp(2.4rem, 5vw, 4.3rem);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 500;
 }
 
 .site-footer {
@@ -456,8 +492,8 @@ img {
 
 .side-rail {
   position: sticky;
-  top: 24px;
-  padding: 24px;
+  top: 40px;
+  padding: 32px;
   border-radius: var(--radius-md);
 }
 
@@ -490,13 +526,11 @@ img {
 }
 
 .case-hero {
-  padding: clamp(28px, 5vw, 48px);
+  padding: clamp(32px, 6vw, 64px);
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent),
-    var(--panel-dark);
-  color: var(--paper-soft);
+  background-color: var(--ink);
+  color: var(--bg);
   box-shadow: var(--shadow);
 }
 
@@ -507,11 +541,11 @@ img {
 
 .chapter {
   display: grid;
-  gap: 22px;
-  padding: 28px;
+  gap: 32px;
+  padding: clamp(24px, 5vw, 48px);
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
-  background: rgba(250, 248, 244, 0.68);
+  background: var(--bg);
   box-shadow: var(--shadow-soft);
 }
 
@@ -555,6 +589,10 @@ img {
 .pitch-box strong,
 .note-box strong {
   color: var(--ink);
+  font-family: var(--monaco);
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .card-grid.four-up {
@@ -606,10 +644,10 @@ img {
 
 .diagram-shell {
   overflow-x: auto;
-  padding: 18px;
+  padding: 32px;
   border-radius: var(--radius-md);
   border: 1px solid var(--line);
-  background: rgba(250, 248, 244, 0.84);
+  background: var(--bg-soft);
 }
 
 .diagram-shell .mermaid {
@@ -669,6 +707,36 @@ code, pre, .mono-text {
   transform: translateY(0);
 }
 
+/* Theme Toggle */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--monaco);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition);
+}
+
+.theme-toggle:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.theme-toggle .icon {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
 @media (max-width: 1080px) {
   .document-layout {
     grid-template-columns: 1fr;
@@ -715,16 +783,18 @@ code, pre, .mono-text {
   .phase-card,
   .section-block,
   .table-wrap {
-    padding: 20px;
+    padding: 24px 20px;
   }
 
   .chapter-header {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .chapter-index {
-    min-height: 64px;
-    width: 88px;
+    min-height: 56px;
+    width: 72px;
+    font-size: 1.8rem;
   }
 
   .step-item {
@@ -732,8 +802,9 @@ code, pre, .mono-text {
   }
 
   .step-number {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
+    font-size: 0.8rem;
   }
 }
 

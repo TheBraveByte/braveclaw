@@ -1,0 +1,26 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer Frame -->
+  <path 
+    d="M20 10 H80 Q90 10 90 20 V80 Q90 90 80 90 H20 Q10 90 10 80 V20 Q10 10 20 10" 
+    stroke="var(--logo-secondary)" 
+    stroke-width="2" 
+    opacity="0.4"
+  />
+
+  <!-- Stylized 'Y' and 'A' Integration -->
+  <g stroke="var(--logo-primary)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 35 L50 55 L70 35" /> <!-- Y top -->
+    <path d="M50 55 V80" />       <!-- Y stem -->
+    <path d="M30 80 L50 30 L70 80" /> <!-- A outer -->
+    <path d="M38 65 H62" stroke-width="4" /> <!-- A bar -->
+  </g>
+
+  <!-- "The Byte" Accent -->
+  <rect 
+    x="72" 
+    y="18" 
+    width="10" 
+    height="10" 
+    fill="var(--logo-primary)" 
+  />
+</svg>

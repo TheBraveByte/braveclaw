@@ -22,6 +22,36 @@ document.querySelectorAll("[data-year]").forEach((node) => {
   node.textContent = String(new Date().getFullYear());
 });
 
+// Theme Switching Logic
+const themeBtn = document.querySelector("#theme-toggle");
+const html = document.documentElement;
+
+const getStoredTheme = () => localStorage.getItem("theme");
+const setStoredTheme = (theme) => localStorage.setItem("theme", theme);
+
+const applyTheme = (theme) => {
+  html.setAttribute("data-theme", theme);
+  const isDark = theme === "dark";
+  if (themeBtn) {
+    themeBtn.innerHTML = isDark 
+      ? '<svg class="icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L19.42 4.58zM5.99 18.01l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0z"/></svg> Light'
+      : '<svg class="icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg> Dark';
+  }
+};
+
+const initialTheme = getStoredTheme() || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+applyTheme(initialTheme);
+
+if (themeBtn) {
+  themeBtn.addEventListener("click", () => {
+    const current = html.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    applyTheme(next);
+    setStoredTheme(next);
+    location.reload(); 
+  });
+}
+
 const spyContainer = document.querySelector("[data-nav-spy]");
 const sections = document.querySelectorAll("[data-section]");
 
@@ -55,64 +85,29 @@ if (spyContainer && sections.length) {
 }
 
 if (window.mermaid) {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
   window.mermaid.initialize({
     startOnLoad: true,
-    theme: "base",
+    theme: isDark ? "dark" : "base",
     securityLevel: "loose",
     themeVariables: {
-      background: "#f3efe8",
-      primaryColor: "#f8f5ef",
-      primaryTextColor: "#141412",
-      primaryBorderColor: "#141412",
-      lineColor: "#141412",
-      secondaryColor: "#e5dfd6",
-      tertiaryColor: "#d4cec3",
-      edgeLabelBackground: "#f3efe8",
-      actorBkg: "#f8f5ef",
-      actorBorder: "#141412",
-      actorTextColor: "#141412",
-      signalColor: "#141412",
-      signalTextColor: "#141412",
-      labelBoxBkgColor: "#f3efe8",
-      labelBoxBorderColor: "#141412",
-      labelTextColor: "#141412",
-      noteBkgColor: "#e5dfd6",
-      noteBorderColor: "#141412",
-      noteTextColor: "#141412",
-      activationBorderColor: "#141412",
-      activationBkgColor: "#d4cec3",
-      sequenceNumberColor: "#141412",
-      fontFamily: '"Space Grotesk", sans-serif',
-      fontSize: "14px",
-      nodeBorder: "#141412",
-      clusterBkg: "#ebe5dc",
-      clusterBorder: "#141412",
-      taskBkgColor: "#d4cec3",
-      taskTextColor: "#141412",
-      taskBorderColor: "#141412",
-      activeTaskBkgColor: "#bcb4a8",
-      activeTaskBorderColor: "#141412",
-      doneTaskBkgColor: "#ece7df",
-      doneTaskBorderColor: "#141412",
-      critBkgColor: "#777168",
-      critBorderColor: "#141412",
-      sectionBkgColor: "#f8f5ef",
-      altSectionBkgColor: "#ebe5dc",
-      gridColor: "#b1ab9f",
-      todayLineColor: "#141412",
-      cScale0: "#141412",
-      cScale1: "#3a3834",
-      cScale2: "#6a655c",
-      cScale3: "#9d9588",
+      fontFamily: '"Monaco", monospace',
+      fontSize: "11px",
+      primaryColor: isDark ? "#111111" : "#fcfcfc",
+      primaryTextColor: isDark ? "#ffffff" : "#131313",
+      primaryBorderColor: isDark ? "#333333" : "#e5e5e5",
+      lineColor: isDark ? "#ffffff" : "#131313",
+      secondaryColor: isDark ? "#050505" : "#f5f5f5",
+      tertiaryColor: isDark ? "#121212" : "#fafafa",
+      mainBkg: isDark ? "#000000" : "#ffffff",
+      nodeBorder: isDark ? "#333333" : "#e5e5e5",
+      clusterBkg: isDark ? "#050505" : "#f5f5f5",
+      clusterBorder: isDark ? "#333333" : "#e5e5e5",
+      titleColor: isDark ? "#ffffff" : "#131313",
+      edgeLabelBackground: isDark ? "#0a0a0a" : "#ffffff",
+      nodeTextColor: isDark ? "#ffffff" : "#131313"
     },
-    flowchart: {
-      curve: "basis",
-      htmlLabels: true,
-    },
-    gantt: {
-      barHeight: 20,
-      topPadding: 40,
-      gridLineStartPadding: 30,
-    },
+    flowchart: { curve: "basis", htmlLabels: true },
+    gantt: { barHeight: 20, topPadding: 40, gridLineStartPadding: 30 }
   });
 }
