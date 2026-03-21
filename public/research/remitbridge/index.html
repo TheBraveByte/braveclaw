@@ -1,649 +1,988 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RemitBridge Dossier | Braveclaw</title>
-  <meta name="description" content="RemitBridge: full product and architecture dossier for a cross-border remittance middleware platform.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../assets/css/site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RemitBridge — Full Product & Architecture Brief</title>
+<!-- GSAP & ScrollTrigger for core animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<!-- Mermaid -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+
+<!-- The separated CSS file for RemitBridge -->
+<link rel="stylesheet" href="remitbridge.css">
+<!-- Original site base for typography / tokens -->
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<style>
+  /* Reset some of the site-wide styles that conflict with this specific dossier template */
+  body { display: flex; flex-direction: row; margin: 0; padding: 0; min-height: 100vh; background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif;}
+  .site-header { display: none; }
+  .site-footer { display: none; }
+  main { padding: 0 48px 80px; max-width: 920px; margin: 0 auto; flex: 1; overflow-x: hidden; }
+</style>
 </head>
-<body class="shell document-shell">
-  <div class="grain-layer" aria-hidden="true"></div>
+<body>
 
-  <header class="site-header reveal">
-    <a href="../../index.html" class="brand">
-      <img src="../../assets/img/logo.svg" alt="The Brave Byte Logo" class="brand-logo">
-      <span class="brand-text">The Brave Byte</span>
-    </a>
-    <nav class="top-nav">
-      <a href="../../index.html" class="nav-link">Home</a>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
-        <span class="theme-icon">Dark</span>
-      </button>
-    </nav>
-  </header>
+<!-- SIDEBAR NAV -->
+<nav id="sidenav" class="reveal">
+  <div class="nav-logo">
+    <div class="name">Remit<span>Bridge</span></div>
+    <div class="sub">Architecture Brief</div>
+    <div style="margin-top:12px;">
+      <a href="../index.html" style="padding-left:0; font-size:10px; opacity:0.6;">← Back to Findings</a>
+    </div>
+  </div>
 
-  <main class="document-container reveal">
-    <header class="doc-header text-center">
-      <h1 class="doc-title">RemitBridge</h1>
-      <p class="doc-content lead">
-        A complete product and technical brief for a remittance middleware layer connecting banks in send markets
-        with licensed payout rails in receive markets, starting with Saudi Arabia to Nigeria.
-      </p>
-      <div class="doc-meta doc-meta-centered">
-        <span>Architecture Brief</span>
-        <span>v1.0 - March 2026</span>
-        <span>Founders & Tech Lead</span>
+  <div class="nav-section">Overview</div>
+  <a href="#vision" class="active">Product Vision</a>
+  <a href="#features">Core Features</a>
+
+  <div class="nav-section">User Journey</div>
+  <a href="#onboarding">Sign Up & KYC</a>
+  <a href="#send">Send Money Flow</a>
+  <a href="#receive">Receive Money Flow</a>
+
+  <div class="nav-section">System Design</div>
+  <a href="#architecture">System Architecture</a>
+  <a href="#integrations">API Integrations</a>
+  <a href="#transaction">Transaction Engine</a>
+  <a href="#security">Security & Compliance</a>
+
+  <div class="nav-section">Expansion</div>
+  <a href="#corridors">Global Corridors</a>
+  <a href="#roadmap">Build Roadmap</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+
+  <!-- HERO -->
+  <div class="hero reveal">
+    <div class="tag">● Internal Team Brief — Confidential</div>
+    <h1>Building <em>RemitBridge</em><br>From Zero to Launch</h1>
+    <p>A complete product and technical architecture document covering every system, integration, user journey, and build phase — from signup to settled transaction across multiple country corridors.</p>
+    <div class="hero-meta">
+      <div class="m">DOCUMENT TYPE<span>Product Architecture Brief</span></div>
+      <div class="m">VERSION<span>v1.0 — March 2026</span></div>
+      <div class="m">AUDIENCE<span>Founders + Tech Lead</span></div>
+      <div class="m">STATUS<span>Pre-Build Planning</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION 1: PRODUCT VISION
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="vision">
+    <div class="section-tag">01 — Product Vision</div>
+    <h2>What are we building and why</h2>
+    <p class="lead">RemitBridge is a cross-border remittance middleware platform. We sit between banks and fintech apps in different countries, making it instant, transparent, and fair to send money across borders — starting with Saudi Arabia to Nigeria and expanding from there.</p>
+
+    <div class="callout">
+      <strong>The one-sentence pitch:</strong> We are the invisible infrastructure layer that lets someone in Saudi Arabia open their bank app, send money to Nigeria, and have their family receive it instantly — with a fair exchange rate shown upfront, no hidden fees, no agents taking a cut.
+    </div>
+
+    <div class="grid grid-2" style="margin-top:24px">
+      <div class="card accent-top">
+        <div class="card-label">What we ARE</div>
+        <h3>A Middleware Platform</h3>
+        <p>We don't hold money. We don't need a banking license. We are a technology layer that orchestrates instructions between licensed banks and licensed fintechs in each country. Our value is speed, transparency, and the corridor connection that doesn't exist today.</p>
       </div>
-    </header>
+      <div class="card blue-top">
+        <div class="card-label">What we are NOT</div>
+        <h3>Not a Bank or Wallet</h3>
+        <p>We do not store customer funds. We do not issue cards. We are not a payment service provider. This keeps our regulatory footprint lean. The banks and fintechs we connect to hold the licenses — we connect them via API.</p>
+      </div>
+      <div class="card purple-top">
+        <div class="card-label">Our revenue model</div>
+        <h3>FX Spread + Transaction Fee</h3>
+        <p>We earn on the difference between the rate we get from the FX feed and the rate we show the customer (our spread, e.g. 0.5–1.5%). We can also charge a flat per-transaction fee. Both are shown transparently on the confirmation screen.</p>
+      </div>
+      <div class="card amber-top">
+        <div class="card-label">Who we serve</div>
+        <h3>Migrant Workers & Pilgrims</h3>
+        <p>Nigerians working or travelling in Saudi Arabia. Eventually: any African diaspora worker in the Gulf. Also businesses paying suppliers, and travel agents handling group Hajj/Umrah remittances at scale.</p>
+      </div>
+    </div>
+  </section>
 
-    <article class="doc-content">
+  <hr class="div">
 
-      <section class="chapter reveal" id="overview" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">01</div>
-          <div>
-            <p class="eyebrow">Overview</p>
-            <h2>What we are building and why</h2>
-            <p class="chapter-intro">
-              RemitBridge is positioned as an invisible infrastructure layer for cross-border transfers:
-              fair FX, fast settlement, and no hidden cuts in the corridor experience.
-            </p>
+  <!-- ══════════════════════════════════════
+       SECTION 2: CORE FEATURES
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="features">
+    <div class="section-tag">02 — Core Features</div>
+    <h2>What the system must do</h2>
+    <p class="lead">Every feature below is a required capability of the platform — not optional extras. This is the minimum viable product that makes the business model work.</p>
+
+    <div class="grid grid-3" style="margin-top:20px">
+      <div class="card">
+        <div class="card-label">Feature F-01</div>
+        <h3>User Registration & KYC</h3>
+        <p>Collect identity documents, selfie, phone number, and country of residence. Verify against government ID databases automatically.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature F-02</div>
+        <h3>Live FX Rate Display</h3>
+        <p>Show the real-time exchange rate pulled from a global FX feed before the user commits. Rate locked for 60 seconds once they confirm.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature F-03</div>
+        <h3>Send Money (Outbound)</h3>
+        <p>User enters recipient account/wallet, amount in SAR. System shows NGN equivalent, fee breakdown. One-tap confirm to execute.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature F-04</div>
+        <h3>Instant Recipient Credit</h3>
+        <p>Payout hits the Nigerian fintech (OPay / Kuda / Moniepoint) within seconds of confirmation. Recipient gets SMS + in-app notification.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature F-05</div>
+        <h3>Transaction History</h3>
+        <p>Full audit trail per user — every send, every rate, every fee. Downloadable receipts. Useful for tax purposes and trust-building.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature F-06</div>
+        <h3>Beneficiary Management</h3>
+        <p>Save frequent recipients (name, account number, bank/wallet). One-tap resend to a saved beneficiary.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature F-07</div>
+        <h3>Multi-Channel Notifications</h3>
+        <p>SMS + push notification at each stage: debit confirmed, transfer in progress, credit delivered. Sender and recipient both notified.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature F-08</div>
+        <h3>Admin Dashboard</h3>
+        <p>Internal ops panel: view all transactions, flag suspicious activity, manually resolve failed payments, run month-end reconciliation reports.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature F-09</div>
+        <h3>Month-End Reconciliation</h3>
+        <p>Automated generation of NIBSS-compatible batch settlement files. Exportable ledger reports per corridor per period.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- ══════════════════════════════════════
+       SECTION 3: ONBOARDING / KYC FLOW
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="onboarding">
+    <div class="section-tag">03 — User Journey</div>
+    <h2>Sign Up, KYC & Verification Flow</h2>
+    <p class="lead">This is what happens from the moment someone downloads the app or visits the website to the moment they are cleared to transact. Every step is mapped — both what the user sees and what happens in the system behind the scenes.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>User downloads app / visits web platform</h4>
+          <p>Available on iOS, Android, and web browser. The entry point is a clean landing screen — no jargon, just "Send money home. Instantly. Fairly." with a single CTA: Get Started.</p>
+          <div class="tags"><span class="badge b-blue">Mobile App</span><span class="badge b-blue">Web App</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Enter phone number + country</h4>
+          <p>Phone number is the primary identifier. User selects their country of residence (Saudi Arabia, UAE, UK, etc.) and their destination country (Nigeria, Ghana, Kenya, etc.). An OTP is sent via SMS to verify the number is real and active.</p>
+          <div class="tags"><span class="badge b-green">Termii SMS OTP</span><span class="badge b-green">Twilio Fallback</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Basic profile: name, email, date of birth</h4>
+          <p>Simple form. This data is cross-checked against the government ID in the next step. If there is a mismatch, the account is flagged for manual review before activation.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Identity Verification (KYC)</h4>
+          <p>User photographs their government ID (International Passport, NIN card, or Iqama/residence permit). Then takes a live selfie for liveness check. Our KYC partner runs automated verification — usually complete in under 30 seconds.</p>
+          <div class="tags">
+            <span class="badge b-green">Smile Identity (Nigeria)</span>
+            <span class="badge b-green">Dojah API</span>
+            <span class="badge b-amber">Jumio / Onfido (International)</span>
           </div>
         </div>
-
-        <div class="pitch-box">
-          <p>
-            <strong>The short pitch:</strong> a sender in Saudi Arabia uses a familiar banking interface,
-            sees the real rate and fees upfront, and the recipient in Nigeria gets credited within seconds.
-          </p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>AML / Sanctions Screening</h4>
+          <p>Name and identity data is automatically screened against global sanctions lists (OFAC, UN, EU), PEP databases, and adverse media in real time. This happens in the background — user does not see this step but it must complete before the account is activated.</p>
+          <div class="tags"><span class="badge b-red">ComplyAdvantage</span><span class="badge b-red">Smile AML</span></div>
         </div>
-
-        <div class="card-grid four-up">
-          <article class="chapter-card">
-            <p class="card-kicker">What it is</p>
-            <h3>Middleware, not a bank</h3>
-            <p>
-              The platform coordinates instructions between licensed institutions instead of holding customer funds directly.
-            </p>
-          </article>
-          <article class="chapter-card">
-            <p class="card-kicker">What it is not</p>
-            <h3>Not a wallet or issuer</h3>
-            <p>
-              It does not issue cards or operate as the regulated institution of record; partners keep that responsibility.
-            </p>
-          </article>
-          <article class="chapter-card">
-            <p class="card-kicker">Revenue model</p>
-            <h3>FX spread plus fee</h3>
-            <p>
-              Revenue comes from a transparent spread on the locked FX quote and, where needed, a flat transaction fee.
-            </p>
-          </article>
-          <article class="chapter-card">
-            <p class="card-kicker">Primary users</p>
-            <h3>Migrant workers and corridor operators</h3>
-            <p>
-              The first audience is Nigerians in Saudi Arabia, with future expansion into diaspora, agents, and business payments.
-            </p>
-          </article>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h4>Account Activated — Set PIN / Biometrics</h4>
+          <p>User sets a 4-6 digit PIN and optionally enables fingerprint or Face ID for future logins. They land on the home dashboard — balance is 0, transaction history is empty, beneficiary list is empty. Ready to transact.</p>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <section class="chapter reveal" id="capabilities" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">02</div>
-          <div>
-            <p class="eyebrow">Capabilities</p>
-            <h2>Minimum system requirements</h2>
-            <p class="chapter-intro">
-              These are the core platform capabilities required for a credible launch rather than optional enhancements.
-            </p>
-          </div>
-        </div>
-
-        <div class="card-grid three-up">
-          <article class="chapter-card"><h3>User registration and KYC</h3><p>Collect profile details, ID documents, and liveness checks with automated verification.</p></article>
-          <article class="chapter-card"><h3>Live FX display</h3><p>Show the quote immediately, then lock the rate for a short confirmation window.</p></article>
-          <article class="chapter-card"><h3>Outbound transfer flow</h3><p>Capture the sender amount, payout amount, fees, and confirmed beneficiary in one path.</p></article>
-          <article class="chapter-card"><h3>Instant payout credit</h3><p>Push funds to Nigeria payout partners fast enough that the recipient sees a near-real-time credit alert.</p></article>
-          <article class="chapter-card"><h3>Transaction history</h3><p>Provide a full receipt trail for support, audit, disputes, and user trust.</p></article>
-          <article class="chapter-card"><h3>Beneficiary management</h3><p>Let repeat senders save recipients and re-use verified destinations with one tap.</p></article>
-          <article class="chapter-card"><h3>Notifications</h3><p>Use SMS and push for OTPs, debit confirmations, payout completion, and exception handling.</p></article>
-          <article class="chapter-card"><h3>Admin operations</h3><p>Expose internal controls for failures, suspicious activity, and manual overrides.</p></article>
-          <article class="chapter-card"><h3>Reconciliation</h3><p>Generate settlement files and ledgers across corridors at month end.</p></article>
-        </div>
-      </section>
-
-      <section class="chapter reveal" id="onboarding" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">03</div>
-          <div>
-            <p class="eyebrow">Onboarding</p>
-            <h2>Sign up, verification, and KYC clearance</h2>
-            <p class="chapter-intro">
-              The experience needs to feel short to the user even though multiple compliance checks run behind the scenes.
-            </p>
-          </div>
-        </div>
-
-        <div class="steps-list">
-          <article class="step-item">
-            <span class="step-number">1</span>
-            <div><h3>Entry point</h3><p>User opens the app or site and lands on a simple promise: send money home quickly and fairly.</p></div>
-          </article>
-          <article class="step-item">
-            <span class="step-number">2</span>
-            <div><h3>Phone verification</h3><p>Phone number and country are collected first, then confirmed through OTP delivery.</p></div>
-          </article>
-          <article class="step-item">
-            <span class="step-number">3</span>
-            <div><h3>Profile details</h3><p>Name, email, and date of birth are captured and later cross-checked against the identity documents.</p></div>
-          </article>
-          <article class="step-item">
-            <span class="step-number">4</span>
-            <div><h3>Identity proof</h3><p>User submits government ID plus a live selfie so the KYC partner can validate both authenticity and liveness.</p></div>
-          </article>
-          <article class="step-item">
-            <span class="step-number">5</span>
-            <div><h3>AML and sanctions screening</h3><p>Name screening and politically exposed person checks run in the background before account activation.</p></div>
-          </article>
-          <article class="step-item">
-            <span class="step-number">6</span>
-            <div><h3>Activation and secure access</h3><p>User sets a PIN, optionally enables biometrics, and lands on an empty but ready dashboard.</p></div>
-          </article>
-        </div>
-
-        <div class="diagram-frame">
-          <div class="mermaid">
+    <!-- The Diagram section gets the .diagram-wrap styling, which we enhanced in JS to add zoom controls. -->
+    <div class="diagram-wrap" style="margin-top:32px">
+      <div class="mermaid">
 flowchart TD
-    A([User opens app]) --> B[Enter phone and country]
+    A([📱 User opens app]) --> B[Enter phone + country]
     B --> C{OTP verified?}
     C -->|No| B
-    C -->|Yes| D[Fill profile details]
-    D --> E[Upload government ID]
-    E --> F[Liveness selfie]
+    C -->|Yes| D[Fill profile: name, DOB, email]
+    D --> E[Upload Government ID]
+    E --> F[Liveness selfie check]
     F --> G{KYC result}
-    G -->|Pass| H[AML sanctions screen]
-    G -->|Bad image| E
-    G -->|Mismatch| I[Manual review queue]
-    H --> J{AML clear?}
-    J -->|Flagged| K[Compliance hold]
-    J -->|Clear| L[Account activated]
-    L --> M[Set PIN and biometrics]
-    M --> N([Dashboard ready])
+    G -->|Pass — auto| H[AML Sanctions Screen]
+    G -->|Fail — bad image| E
+    G -->|Fail — mismatch| I[Manual Review Queue\n24–48h]
+    H --> J{AML Clear?}
+    J -->|Flagged| K[Compliance holds account\nManual review]
+    J -->|Clear| L[✅ Account activated]
+    L --> M[Set PIN & Biometrics]
+    M --> N([🏠 Home Dashboard])
     I -->|Approved| L
-    I -->|Rejected| O([Account rejected])
+    I -->|Rejected| O([❌ Account rejected\nUser notified with reason])
     K -->|Cleared| L
     K -->|Blocked| O
-          </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- ══════════════════════════════════════
+       SECTION 4: SEND MONEY FLOW
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="send">
+    <div class="section-tag">04 — User Journey</div>
+    <h2>Send Money Flow — Step by Step</h2>
+    <p class="lead">This is the core transaction journey. The user experience must be fast, clear, and confidence-building. Rate shown. Fees shown. Recipient confirmed. One tap to send.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Tap "Send Money" on dashboard</h4>
+          <p>User lands on the Send screen. Two fields: "You send" (in their local currency, e.g. SAR) and "They receive" (in the destination currency, e.g. NGN). Both update in real time as the user types.</p>
         </div>
-      </section>
-
-      <section class="chapter reveal" id="transfer" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">04</div>
-          <div>
-            <p class="eyebrow">Transfer flow</p>
-            <h2>Send and receive journeys</h2>
-            <p class="chapter-intro">
-              The transfer experience should feel confident and deterministic: clear price, clear recipient, clear finality.
-            </p>
-          </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Live rate displayed immediately</h4>
+          <p>As soon as the user types an amount, the system pulls the live FX rate from our FX feed and shows: the rate, our fee, and the exact amount the recipient will receive. No surprises at the end.</p>
+          <div class="tags"><span class="badge b-green">XE API</span><span class="badge b-green">Open Exchange Rates</span></div>
         </div>
-
-        <div class="split-grid">
-          <article class="chapter-card">
-            <p class="card-kicker">Send money</p>
-            <h3>Core sender flow</h3>
-            <ul class="meta-list">
-              <li>User enters the send amount and sees the live rate immediately</li>
-              <li>Recipient is selected or created, with name enquiry validating the destination</li>
-              <li>Confirmation screen exposes fee, rate, arrival expectation, and countdown timer</li>
-              <li>PIN or biometric approval gates the actual transaction request</li>
-              <li>Middleware locks the rate, debits the sender, and triggers Nigeria payout rails</li>
-            </ul>
-          </article>
-
-          <article class="chapter-card">
-            <p class="card-kicker">Receive money</p>
-            <h3>Recipient experience</h3>
-            <ul class="meta-list">
-              <li>Recipients do not need a RemitBridge account to receive into OPay, Kuda, or a bank account</li>
-              <li>If they are also users, they see richer receipt detail and can trigger future request-link flows</li>
-              <li>SMS and in-app notices close the trust gap on both sides of the corridor</li>
-            </ul>
-          </article>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Select or add recipient</h4>
+          <p>User picks from saved beneficiaries (name + account) or adds a new one. For Nigeria: enter 10-digit NUBAN account number, select bank or OPay/Kuda wallet. Account name is looked up automatically via the Nigeria bank name enquiry API.</p>
+          <div class="tags"><span class="badge b-green">Flutterwave Name Enquiry</span><span class="badge b-blue">OPay / Kuda API</span></div>
         </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Review & Confirm screen</h4>
+          <p>Full summary shown: amount sent, fee, rate, recipient name, expected arrival. User has 60 seconds to confirm before the rate expires. A countdown timer is visible. If it expires, a fresh rate is fetched automatically.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>PIN / Biometric authentication</h4>
+          <p>Before executing, user must authenticate via PIN or biometric. This is the security gate. A transaction cannot proceed without this — preventing accidental or fraudulent sends.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h4>Transaction executes in the background</h4>
+          <p>Our middleware: (a) locks the FX rate, (b) debits the sender via the Saudi bank API, (c) fires a credit instruction to OPay/Kuda Nigeria. The user sees a loading state for 3–8 seconds while this happens.</p>
+          <div class="tags"><span class="badge b-blue">Saudi Bank API</span><span class="badge b-green">OPay API</span><span class="badge b-green">Kuda API</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <h4>Success confirmation + notification</h4>
+          <p>App shows a success screen with a receipt. Sender gets an in-app notification and SMS. Recipient (in Nigeria) gets an SMS from OPay/Kuda saying their account has been credited — along with who sent it.</p>
+          <div class="tags"><span class="badge b-green">Firebase Push</span><span class="badge b-green">Termii SMS</span></div>
+        </div>
+      </div>
+    </div>
 
-        <div class="diagram-frame">
-          <div class="mermaid">
+    <div class="diagram-wrap" style="margin-top:32px">
+      <div class="mermaid">
 sequenceDiagram
-    actor U as Sender
-    participant APP as App
-    participant FX as FX Feed
-    participant MW as Middleware
+    actor U as Sender (KSA)
+    participant APP as RemitBridge App
+    participant MW as Middleware API
+    participant FX as FX Rate Feed
     participant BANK as Saudi Bank API
-    participant NG as Nigeria Payout Rail
-    actor R as Recipient
+    participant NG as OPay / Kuda (NG)
+    actor R as Recipient (Nigeria)
 
-    U->>APP: Enter 500 SAR
-    APP->>FX: Request SAR to NGN quote
-    FX-->>APP: Return live rate and timing window
-    APP-->>U: Show receive amount and fee
-    U->>APP: Confirm recipient and approve transfer
-    APP->>MW: Create transfer request
-    MW->>BANK: Debit sender
-    BANK-->>MW: Debit confirmed
-    MW->>NG: Credit payout partner
-    NG-->>R: Credit alert
-    NG-->>MW: Webhook success
-    MW-->>APP: Transfer settled
-          </div>
-        </div>
-      </section>
+    U->>APP: Opens Send screen, enters 500 SAR
+    APP->>FX: GET /rates?from=SAR&to=NGN
+    FX-->>APP: Rate: 1 SAR = 151.20 NGN (live)
+    APP-->>U: Shows: 500 SAR → 75,600 NGN\nFee: 4 SAR | Rate: 151.20
 
-      <section class="chapter reveal" id="architecture" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">05</div>
-          <div>
-            <p class="eyebrow">Architecture</p>
-            <h2>System blueprint</h2>
-            <p class="chapter-intro">
-              Every external dependency should sit behind an internal service interface so one partner outage does not take the platform down.
-            </p>
-          </div>
-        </div>
+    U->>APP: Selects recipient: Fatimah / OPay 08012345678
+    APP->>NG: GET /verify-account {account: 08012345678}
+    NG-->>APP: Account valid: "Fatimah Bello"
+    APP-->>U: Confirm screen — 60s countdown starts
 
-        <div class="card-grid three-up">
-          <article class="chapter-card"><h3>Client layer</h3><p>Web and mobile experiences share the same product logic while hitting a central API gateway.</p></article>
-          <article class="chapter-card"><h3>Core services</h3><p>User, transaction, FX, beneficiary, notification, reconciliation, and audit services stay clearly separated.</p></article>
-          <article class="chapter-card"><h3>Data layer</h3><p>PostgreSQL stores the ledger state, Redis caches rates and sessions, and object storage keeps documents and receipts.</p></article>
-          <article class="chapter-card"><h3>Compliance adapters</h3><p>KYC, AML, and sanctions checks are delegated to specialist partners behind stable internal APIs.</p></article>
-          <article class="chapter-card"><h3>Send-side connectors</h3><p>Saudi bank integrations are treated as debit adapters rather than core product logic.</p></article>
-          <article class="chapter-card"><h3>Payout connectors</h3><p>OPay, Kuda, Moniepoint, and fallback routes can be swapped by the transaction engine.</p></article>
-        </div>
+    U->>APP: Confirms & enters PIN ✅
+    APP->>MW: POST /transfer {amount:500, currency:SAR, recipient, rate_id}
+    MW->>MW: Lock rate, create TXN-20260321-001 [PROCESSING]
+    MW->>BANK: POST /debit {account: user_id, amount: 504 SAR}
+    BANK-->>MW: Debit confirmed ✅
 
-        <div class="diagram-frame">
-          <div class="mermaid">
+    MW->>NG: POST /credit {wallet: 08012345678, amount: 75600 NGN}
+    NG->>NG: Ledger credit — instant
+    NG-->>R: SMS: "Credit alert: NGN 75,600 from RemitBridge"
+    NG-->>MW: Webhook: CREDIT_SUCCESS
+
+    MW->>MW: Update TXN status: SETTLED. Archive record.
+    MW-->>APP: Transfer complete ✅
+    APP-->>U: 🎉 Success! 75,600 NGN sent to Fatimah
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- ══════════════════════════════════════
+       SECTION 5: RECEIVE FLOW
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="receive">
+    <div class="section-tag">05 — User Journey</div>
+    <h2>Receive Money Flow</h2>
+    <p class="lead">The recipient (in Nigeria or another destination country) does not need to be a RemitBridge user to receive money. They just need an OPay, Kuda, or bank account. However, if they ARE a RemitBridge user, they get richer notifications and can initiate a return transfer easily.</p>
+
+    <div class="grid grid-2">
+      <div class="card accent-top">
+        <div class="card-label">Non-RemitBridge recipient</div>
+        <h3>Receiving via OPay / Kuda / Bank</h3>
+        <p>Recipient already has an OPay or Kuda wallet or any Nigerian bank account. The sender provides the account number. Money arrives in the recipient's existing account automatically — no action needed from the recipient. They receive an SMS credit alert from their bank/wallet provider.</p>
+      </div>
+      <div class="card blue-top">
+        <div class="card-label">RemitBridge recipient</div>
+        <h3>Receiving via RemitBridge App</h3>
+        <p>If the recipient also has RemitBridge installed, they see the incoming transfer in real time on their dashboard. They can tap to see the full receipt: who sent, how much in the source currency, the rate applied, and the NGN amount credited to their linked account.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-blue" style="margin-top:20px">
+      <strong>Future feature (Phase 2):</strong> Recipient Request Link — a recipient in Nigeria can generate a payment request link (like a payment invoice) and send it to someone in Saudi Arabia. The sender clicks the link, authenticates in the app, and the transfer executes with the recipient's details pre-filled. Great for recurring family remittances.
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- ══════════════════════════════════════
+       SECTION 6: SYSTEM ARCHITECTURE
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="architecture">
+    <div class="section-tag">06 — System Design</div>
+    <h2>Full System Architecture</h2>
+    <p class="lead">Every component of the platform — what it does, how it connects, and where it sits. This is the blueprint your technical team builds from.</p>
+
+    <div class="diagram-wrap">
+      <div class="mermaid">
 graph TB
-    subgraph CLIENT[Client Layer]
-      WEB[Web App]
+    subgraph CLIENT["📱 Client Layer"]
+      direction LR
       IOS[iOS App]
       AND[Android App]
+      WEB[Web App]
     end
 
-    subgraph GATEWAY[Gateway Layer]
-      GW[API Gateway]
-      AUTH[Auth Service]
-      RL[Rate Limit and WAF]
+    subgraph GATEWAY["🔐 API Gateway Layer"]
+      direction LR
+      GW[API Gateway\nNginx / Kong]
+      AUTH[Auth Service\nJWT + Refresh tokens]
+      RL[Rate Limiter\n& WAF]
     end
 
-    subgraph CORE[Core Services]
-      USER[User Service]
-      TXN[Transaction Engine]
-      FXS[FX Service]
-      BENE[Beneficiary Service]
-      NOTIF[Notification Service]
-      RECON[Reconciliation]
-      AUDIT[Audit Log]
+    subgraph CORE["⚙️ Core Services"]
+      direction TB
+      USER[User Service\nProfile · KYC status · Tiers]
+      TXN[Transaction Engine\nState machine · Orchestrator]
+      FXS[FX Rate Service\nPoll every 30s · Quote lock · Cache]
+      BENE[Beneficiary Service\nSaved recipients]
+      NOTIF[Notification Service\nSMS · Push · Email]
+      RECON[Reconciliation Engine\nMonth-end · NIBSS batch]
+      AUDIT[Audit Log Service\nImmutable event log]
     end
 
-    subgraph DATA[Data Layer]
-      PG[(PostgreSQL)]
-      REDIS[(Redis)]
-      OBJ[(Object Storage)]
+    subgraph DATA["🗄️ Data Layer"]
+      PGMAIN[(PostgreSQL\nMain DB — Ledger\nTransactions · Users)]
+      REDIS[(Redis Cache\nFX rates · Sessions\nOTP codes)]
+      S3[(Object Storage\nKYC documents\nReceipts · Reports)]
     end
 
-    subgraph EXT[External Partners]
-      KYC[KYC and AML]
-      BANK[Saudi Banks]
-      PAYOUT[Nigeria Rails]
-      SMS[SMS and Push]
-      FXFEED[FX Feeds]
+    subgraph ADMIN["🖥️ Admin Layer"]
+      OPS[Ops Dashboard\nTransaction monitoring]
+      ALERT[Alert System\nFailed txns · Anomalies]
+    end
+
+    subgraph EXTKYC["🪪 Identity & Compliance"]
+      SMILE[Smile Identity\nNigeria KYC + AML]
+      DOJAH[Dojah API\nNIN / BVN verification]
+      COMPLY[ComplyAdvantage\nSanctions · PEP screens]
+      JUMIO[Jumio / Onfido\nInternational KYC]
+    end
+
+    subgraph EXTFX["📈 FX Data"]
+      XE[XE API]
+      OER[Open Exchange Rates]
+    end
+
+    subgraph EXTSEND["🇸🇦 Send-Side Banks"]
+      SNB[SNB Saudi Arabia\nBank API Partner]
+      ALRAJHI[Al Rajhi Bank\nBank API Partner]
+      STCPAY[STC Pay / stcbank]
+    end
+
+    subgraph EXTPAY["🇳🇬 Nigeria Payout Rails"]
+      OPAY[OPay API]
+      KUDA[Kuda API]
+      MONO[Moniepoint API]
+      FLUTTER[Flutterwave\nFallback + Name Enquiry]
+      NIBSS[NIBSS\nMonth-end settlement]
+    end
+
+    subgraph COMMS["📲 Communication"]
+      TERMII[Termii\nSMS — Nigeria & Gulf]
+      TWILIO[Twilio\nGlobal SMS fallback]
+      FCM[Firebase Cloud Messaging\nPush notifications]
     end
 
     CLIENT --> GATEWAY
-    GATEWAY --> CORE
+    GATEWAY --> AUTH
+    GATEWAY --> RL
+    AUTH --> CORE
+    RL --> CORE
+
+    USER --> EXTKYC
+    TXN --> FXS
+    TXN --> EXTFX
+    TXN --> EXTSEND
+    TXN --> EXTPAY
+    NOTIF --> COMMS
+    TXN --> NOTIF
+    RECON --> NIBSS
+    AUDIT --> PGMAIN
+
     CORE --> DATA
-    USER --> KYC
-    TXN --> BANK
-    TXN --> PAYOUT
-    TXN --> FXFEED
-    NOTIF --> SMS
-    AUDIT --> PG
-          </div>
-        </div>
+    OPS --> CORE
+    ALERT --> NOTIF
+      </div>
+    </div>
 
-        <div class="note-box">
-          <p>
-            <strong>Operating principle:</strong> if a payout rail fails, the transaction engine should retry another approved partner before escalating to manual review.
-          </p>
-        </div>
-      </section>
+    <div class="callout" style="margin-top:24px">
+      <strong>Key principle:</strong> Every external integration is isolated behind an internal service interface. If OPay goes down, the Transaction Engine retries with Kuda or Moniepoint automatically. If the XE rate feed fails, we fall back to Open Exchange Rates. No single external dependency can take down the whole system.
+    </div>
+  </section>
 
-      <section class="chapter reveal" id="integrations" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">06</div>
-          <div>
-            <p class="eyebrow">Integrations</p>
-            <h2>External services and why they exist</h2>
-            <p class="chapter-intro">
-              Each partner below plays a defined role in KYC, pricing, debit orchestration, payout routing, or communication.
-            </p>
-          </div>
-        </div>
+  <hr class="div">
 
-        <div class="table-wrap">
-          <table class="research-table">
-            <thead>
-              <tr>
-                <th>Service</th>
-                <th>Category</th>
-                <th>Why it matters</th>
-                <th>How it is used</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Smile Identity</td>
-                <td>KYC / AML</td>
-                <td>Validates Nigerian IDs, selfies, and identity matching.</td>
-                <td>Called during onboarding, with async follow-up when needed.</td>
-              </tr>
-              <tr>
-                <td>Dojah</td>
-                <td>KYC</td>
-                <td>Cross-checks NIN and BVN details for Nigeria-specific identity confidence.</td>
-                <td>Used as a synchronous verification layer inside onboarding.</td>
-              </tr>
-              <tr>
-                <td>Jumio or Onfido</td>
-                <td>KYC</td>
-                <td>Extends the model to international IDs such as passports and residence permits.</td>
-                <td>SDK plus API callback for non-Nigerian users.</td>
-              </tr>
-              <tr>
-                <td>ComplyAdvantage</td>
-                <td>Compliance</td>
-                <td>Screens users and transfers against sanctions, PEP lists, and adverse media.</td>
-                <td>Triggered at signup and on risk-based transaction thresholds.</td>
-              </tr>
-              <tr>
-                <td>XE Currency API</td>
-                <td>FX rates</td>
-                <td>Primary live pricing source for corridor quotes.</td>
-                <td>Polled continuously and cached for quote generation.</td>
-              </tr>
-              <tr>
-                <td>Open Exchange Rates</td>
-                <td>FX rates</td>
-                <td>Fallback source for resilience and historical audit support.</td>
-                <td>Activated when the primary feed is unavailable.</td>
-              </tr>
-              <tr>
-                <td>Saudi National Bank / Al Rajhi</td>
-                <td>Send-side bank</td>
-                <td>Debit the sender after authorization inside the Saudi corridor.</td>
-                <td>Private bank API integrations with partnership agreements.</td>
-              </tr>
-              <tr>
-                <td>OPay</td>
-                <td>Payout rail</td>
-                <td>Primary instant credit route for recipients in Nigeria.</td>
-                <td>Receives credit instructions and returns webhook confirmations.</td>
-              </tr>
-              <tr>
-                <td>Kuda</td>
-                <td>Payout rail</td>
-                <td>Secondary payout path for redundancy and account-specific routing.</td>
-                <td>Used when OPay is unavailable or recipient preference dictates it.</td>
-              </tr>
-              <tr>
-                <td>Flutterwave</td>
-                <td>Payout / verification</td>
-                <td>Provides fallback routing and bank account name enquiry.</td>
-                <td>Used heavily when adding new beneficiaries.</td>
-              </tr>
-              <tr>
-                <td>Termii and Twilio</td>
-                <td>Communications</td>
-                <td>Handle OTP and transaction messaging across Nigeria and international markets.</td>
-                <td>Termii first, Twilio as fallback or non-Nigeria default.</td>
-              </tr>
-              <tr>
-                <td>Firebase Cloud Messaging</td>
-                <td>Push</td>
-                <td>Drives in-app alerts for completed or delayed transfers.</td>
-                <td>Server-triggered notifications from the notification service.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+  <!-- ══════════════════════════════════════
+       SECTION 7: API INTEGRATIONS CATALOG
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="integrations">
+    <div class="section-tag">07 — Integrations</div>
+    <h2>Every API We Integrate With & Why</h2>
+    <p class="lead">This is the full catalog of third-party services our platform depends on. For each integration: what it does, when we call it, and what we must negotiate or sign up for.</p>
 
-      <section class="chapter reveal" id="engine" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">07</div>
-          <div>
-            <p class="eyebrow">Transaction engine</p>
-            <h2>State flow and failure handling</h2>
-            <p class="chapter-intro">
-              No debit should remain orphaned. The engine must always know whether to retry, escalate, or refund.
-            </p>
-          </div>
-        </div>
+    <div style="overflow-x:auto;">
+    <table class="int-table">
+      <thead>
+        <tr>
+          <th style="width:18%">Service</th>
+          <th style="width:15%">Category</th>
+          <th style="width:42%">What it does in our system</th>
+          <th style="width:25%">Integration type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- KYC -->
+        <tr>
+          <td><div class="iname">Smile Identity</div><div class="icat">smileidentity.com</div></td>
+          <td><span class="badge b-red">KYC / AML</span></td>
+          <td>Verifies Nigerian users against NIN, BVN, Voter's Card, Driver's License databases. Also runs liveness check and selfie match. Returns pass/fail with confidence score in under 30 seconds.</td>
+          <td>REST API — called at registration step 4. Webhook for async results.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">Dojah</div><div class="icat">dojah.io</div></td>
+          <td><span class="badge b-red">KYC</span></td>
+          <td>Nigeria-specific identity data API. Validates NIN (National Identity Number) and BVN (Bank Verification Number) in real time against NIMC and CBN databases. Used as cross-check alongside Smile Identity.</td>
+          <td>REST API — called during KYC verification, synchronous call.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">Jumio / Onfido</div><div class="icat">jumio.com / onfido.com</div></td>
+          <td><span class="badge b-red">KYC</span></td>
+          <td>International document verification — for users based outside Nigeria (Saudi Iqama, UK driving license, US passport, etc.). OCR + liveness. Used for non-Nigerian senders.</td>
+          <td>SDK embedded in mobile app + REST API for result callback.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">ComplyAdvantage</div><div class="icat">complyadvantage.com</div></td>
+          <td><span class="badge b-red">AML / Compliance</span></td>
+          <td>Screens all new users against OFAC, UN, EU, and UK sanctions lists plus PEP (Politically Exposed Persons) databases. Also monitors ongoing transactions for suspicious patterns. Required for regulatory compliance in any international payment corridor.</td>
+          <td>REST API — called at registration and at each transaction above a threshold amount.</td>
+        </tr>
+        <!-- FX -->
+        <tr>
+          <td><div class="iname">XE Currency API</div><div class="icat">xe.com/xecurrencydata</div></td>
+          <td><span class="badge b-green">FX Rates</span></td>
+          <td>Primary FX rate feed. Provides live mid-market SAR/NGN, SAR/GHS, SAR/KES, and all our corridor pairs. We poll every 30 seconds and cache in Redis. The rate we show users is mid-market + our spread.</td>
+          <td>REST API — polled by FX Rate Service. Commercial API key required. ~$99–299/month depending on plan.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">Open Exchange Rates</div><div class="icat">openexchangerates.org</div></td>
+          <td><span class="badge b-green">FX Rates</span></td>
+          <td>Fallback FX data source in case XE API is unavailable. Also used for historical rate data for reconciliation reports and dispute resolution.</td>
+          <td>REST API — fallback, called if XE returns error. ~$12/month Enterprise plan.</td>
+        </tr>
+        <!-- Saudi Bank -->
+        <tr>
+          <td><div class="iname">Saudi National Bank API</div><div class="icat">Direct partnership negotiation</div></td>
+          <td><span class="badge b-blue">Bank Partner (KSA)</span></td>
+          <td>Primary send-side bank. When a user confirms a transfer, we call SNB's API to debit the user's account. The user must have a pre-existing SNB account and must have linked it to our platform (OAuth-style authorization). We receive a webhook when the debit is confirmed.</td>
+          <td>Private bank API — requires signed partnership agreement and sandbox access. OAuth 2.0 for user account authorization. Webhook for debit confirmation.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">Al Rajhi Bank API</div><div class="icat">Direct partnership negotiation</div></td>
+          <td><span class="badge b-blue">Bank Partner (KSA)</span></td>
+          <td>Secondary Saudi bank partner. Al Rajhi has the largest retail customer base in Saudi Arabia and many migrant workers bank with them. Same integration model as SNB — OAuth for user authorization, API for debit instruction.</td>
+          <td>Private bank API — requires signed partnership. Parallel integration to SNB.</td>
+        </tr>
+        <!-- Nigeria Payout -->
+        <tr>
+          <td><div class="iname">OPay API</div><div class="icat">opayweb.com/developer</div></td>
+          <td><span class="badge b-green">Payout (Nigeria)</span></td>
+          <td>Primary Nigeria payout rail. OPay's ledger-based credit is near-instant. We call their payout API with the recipient's OPay wallet number or linked bank account. OPay instantly credits the recipient's ledger and triggers their own SMS notification. OPay holds a commercial banking license in Nigeria.</td>
+          <td>REST API — business account required. Webhook for credit confirmation. Negotiate direct API partnership for volume pricing.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">Flutterwave</div><div class="icat">flutterwave.com/pay</div></td>
+          <td><span class="badge b-green">Payout (Nigeria) + Routing</span></td>
+          <td>Dual role: (1) fallback payout rail if OPay or Kuda API is unavailable, and (2) Nigeria bank name enquiry — when a user enters a NUBAN account number, we call Flutterwave's name lookup API to confirm "this account number belongs to Fatimah Bello at GTBank." This prevents wrong-account errors.</td>
+          <td>REST API — sandbox available instantly, production requires business registration. Used for name enquiry on every new beneficiary.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">Kuda Bank API</div><div class="icat">kuda.com/business</div></td>
+          <td><span class="badge b-green">Payout (Nigeria)</span></td>
+          <td>Secondary payout rail. Kuda's neobank infrastructure allows fast ledger credits. Useful if OPay is down or if recipient specifically has a Kuda account. Kuda also has a large base of younger Nigerian users.</td>
+          <td>REST API — business partnership required. Webhook for confirmation.</td>
+        </tr>
+        <!-- Communications -->
+        <tr>
+          <td><div class="iname">Termii</div><div class="icat">termii.com</div></td>
+          <td><span class="badge b-purple">SMS</span></td>
+          <td>Primary SMS provider — Nigeria and Gulf countries. Used for OTP delivery at signup, and transaction notifications to recipients in Nigeria. Termii has excellent Nigerian delivery rates and supports Hausa, Yoruba, and Igbo message templates.</td>
+          <td>REST API — instant signup. Pre-pay credit model. Also supports WhatsApp message delivery.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">Twilio</div><div class="icat">twilio.com</div></td>
+          <td><span class="badge b-purple">SMS</span></td>
+          <td>Global SMS fallback. If Termii fails delivery, Twilio retries via their international carrier network. Also primary SMS provider for users in Saudi Arabia, UAE, UK, and other non-Nigeria markets.</td>
+          <td>REST API — pay-per-message. Integrate as secondary provider in Notification Service.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">Firebase Cloud Messaging</div><div class="icat">firebase.google.com</div></td>
+          <td><span class="badge b-purple">Push Notifications</span></td>
+          <td>In-app push notifications for iOS and Android. Used to alert sender when transfer is complete and alert RemitBridge-registered recipients of incoming funds. Free tier sufficient for early stage.</td>
+          <td>Firebase SDK integrated into mobile apps. REST API for server-triggered notifications from Notification Service.</td>
+        </tr>
+        <!-- Infrastructure -->
+        <tr>
+          <td><div class="iname">AWS / GCP</div><div class="icat">Cloud Infrastructure</div></td>
+          <td><span class="badge b-amber">Infrastructure</span></td>
+          <td>Hosting for all backend services. Recommended: AWS for primary (good presence in both Middle East and Africa regions). Use managed services: RDS for PostgreSQL, ElastiCache for Redis, S3 for document storage, SQS for async job queues.</td>
+          <td>IaaS — infrastructure as code (Terraform). Deploy to AWS Bahrain region (closest to Saudi Arabia) with Nigeria CDN edge.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
 
-        <div class="diagram-frame">
-          <div class="mermaid">
+  <hr class="div">
+
+  <!-- ══════════════════════════════════════
+       SECTION 8: TRANSACTION ENGINE
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="transaction">
+    <div class="section-tag">08 — Core Engine</div>
+    <h2>Transaction Engine — States & Logic</h2>
+    <p class="lead">Every transaction moves through a defined set of states. The engine must be fault-tolerant — if any step fails, it knows exactly where to resume, retry, or rollback. No money can be debited without a matching credit, and no credit is issued before a debit is confirmed.</p>
+
+    <div class="diagram-wrap">
+      <div class="mermaid">
 stateDiagram-v2
-    [*] --> INITIATED
-    INITIATED --> RATE_LOCKED
-    RATE_LOCKED --> DEBIT_PENDING
-    RATE_LOCKED --> EXPIRED
-    DEBIT_PENDING --> DEBIT_CONFIRMED
-    DEBIT_PENDING --> DEBIT_FAILED
-    DEBIT_FAILED --> FAILED
-    DEBIT_CONFIRMED --> CREDIT_PENDING
-    CREDIT_PENDING --> CREDIT_CONFIRMED
-    CREDIT_PENDING --> CREDIT_RETRY
-    CREDIT_RETRY --> CREDIT_PENDING
-    CREDIT_RETRY --> MANUAL_REVIEW
-    MANUAL_REVIEW --> CREDIT_PENDING
-    MANUAL_REVIEW --> REFUND_PENDING
-    REFUND_PENDING --> REFUNDED
-    CREDIT_CONFIRMED --> SETTLED
+    [*] --> INITIATED: User confirms transfer
+
+    INITIATED --> RATE_LOCKED: FX rate locked for 60s
+    RATE_LOCKED --> DEBIT_PENDING: Bank debit instruction sent
+    RATE_LOCKED --> EXPIRED: 60s elapsed — user must retry
+
+    DEBIT_PENDING --> DEBIT_CONFIRMED: Bank webhook confirms debit ✅
+    DEBIT_PENDING --> DEBIT_FAILED: Bank rejects (insufficient funds / error)
+
+    DEBIT_FAILED --> FAILED: No money moved — safe to abandon
+    DEBIT_CONFIRMED --> CREDIT_PENDING: OPay/Kuda credit instruction sent
+
+    CREDIT_PENDING --> CREDIT_CONFIRMED: Fintech webhook confirms credit ✅
+    CREDIT_PENDING --> CREDIT_RETRY: Credit failed — auto-retry (3x)
+    CREDIT_RETRY --> CREDIT_PENDING: Retry attempt
+    CREDIT_RETRY --> MANUAL_REVIEW: All retries exhausted
+
+    CREDIT_CONFIRMED --> SETTLED: Record archived ✅ Notifications sent
+    MANUAL_REVIEW --> CREDIT_PENDING: Ops team manually re-triggers
+    MANUAL_REVIEW --> REFUND_PENDING: Ops decides to refund sender
+
+    REFUND_PENDING --> REFUNDED: Bank credits sender back
     SETTLED --> [*]
     FAILED --> [*]
     REFUNDED --> [*]
     EXPIRED --> [*]
-          </div>
-        </div>
+      </div>
+    </div>
 
-        <div class="note-box">
-          <p>
-            <strong>Critical rule:</strong> if debit succeeds but payout fails repeatedly, the funds move into a suspense ledger and ops receives an immediate escalation for manual completion or refund.
-          </p>
-        </div>
-      </section>
+    <div class="callout callout-blue" style="margin-top:20px">
+      <strong>Critical rule — no orphaned debits:</strong> If a debit is confirmed but credit fails 3 times and goes to manual review, the system holds the debited SAR in a suspense ledger. Ops can see this immediately in the admin dashboard. The customer is notified that their transfer is being manually processed and will either complete or be refunded within 24 hours. Zero silent failures.
+    </div>
+  </section>
 
-      <section class="chapter reveal" id="security" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">08</div>
-          <div>
-            <p class="eyebrow">Security</p>
-            <h2>Protection, audit, and compliance posture</h2>
-            <p class="chapter-intro">
-              A remittance product becomes a security target early, so protections need to be structural rather than cosmetic.
-            </p>
-          </div>
-        </div>
+  <hr class="div">
 
-        <div class="card-grid three-up">
-          <article class="chapter-card"><h3>JWT plus biometric approval</h3><p>Short-lived access tokens and a fresh user-authentication step before each transfer.</p></article>
-          <article class="chapter-card"><h3>Encryption everywhere</h3><p>TLS in transit, managed keys at rest, and restricted access around KYC documents.</p></article>
-          <article class="chapter-card"><h3>Rate limits and velocity rules</h3><p>Suspicious volume and threshold breaches should be configurable without code changes.</p></article>
-          <article class="chapter-card"><h3>Tiered limits</h3><p>Transaction ceilings adapt to KYC depth, source-of-funds evidence, and risk appetite.</p></article>
-          <article class="chapter-card"><h3>Immutable audit trail</h3><p>Every login, override, and transfer transition is written to a durable event history.</p></article>
-          <article class="chapter-card"><h3>Ongoing AML monitoring</h3><p>Transaction behavior should continue to feed compliance checks after onboarding is complete.</p></article>
-        </div>
-      </section>
+  <!-- ══════════════════════════════════════
+       SECTION 9: SECURITY & COMPLIANCE
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="security">
+    <div class="section-tag">09 — Security & Compliance</div>
+    <h2>How we keep user data and money safe</h2>
+    <p class="lead">Operating a financial platform means we are a target. Security is not optional — it is baked into every layer of the architecture from day one.</p>
 
-      <section class="chapter reveal" id="corridors" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">09</div>
-          <div>
-            <p class="eyebrow">Corridors</p>
-            <h2>Launch path and geographic expansion</h2>
-            <p class="chapter-intro">
-              The architecture is corridor-agnostic, but every new market requires a send-side bank partner and a receive-side payout partner.
-            </p>
-          </div>
-        </div>
+    <div class="grid grid-2">
+      <div class="card accent-top">
+        <div class="card-label">Authentication</div>
+        <h3>JWT + Biometric Auth</h3>
+        <p>Short-lived JWT access tokens (15 mins) + long-lived refresh tokens stored securely on device. All transactions require re-authentication via PIN or biometric. No transaction executes without user intent confirmation.</p>
+      </div>
+      <div class="card blue-top">
+        <div class="card-label">Data Encryption</div>
+        <h3>Encryption at Rest & Transit</h3>
+        <p>All data encrypted at rest (AES-256 via AWS KMS). All API communication over TLS 1.3. KYC documents (ID images, selfies) stored in encrypted S3 with strict IAM policies — not accessible to any application service, only to the KYC pipeline.</p>
+      </div>
+      <div class="card purple-top">
+        <div class="card-label">Fraud Prevention</div>
+        <h3>Rate Limits + Velocity Checks</h3>
+        <p>API rate limiting per user per minute. Velocity rules: flag if a user attempts more than N transactions in 24h, or if the total value exceeds their tier limit. Rules are configurable in the admin dashboard without a code deploy.</p>
+      </div>
+      <div class="card amber-top">
+        <div class="card-label">Transaction Limits</div>
+        <h3>Tiered Sending Limits</h3>
+        <p>Tier 1 (phone only): up to $200/month. Tier 2 (KYC verified): up to $5,000/month. Tier 3 (enhanced KYC + source of funds): unlimited. Users are prompted to upgrade tiers inline when they approach their limit.</p>
+      </div>
+      <div class="card accent-top">
+        <div class="card-label">Audit Trail</div>
+        <h3>Immutable Event Log</h3>
+        <p>Every action — login, transaction attempt, KYC update, admin override — is written to an append-only audit log. This log cannot be deleted or modified. It is the source of truth for dispute resolution and regulatory reporting.</p>
+      </div>
+      <div class="card blue-top">
+        <div class="card-label">Regulatory</div>
+        <h3>AML Monitoring</h3>
+        <p>Ongoing transaction monitoring via ComplyAdvantage. Suspicious activity reports (SARs) generated automatically when rules are triggered. Monthly reporting to relevant financial intelligence units as required by law in each operating country.</p>
+      </div>
+    </div>
+  </section>
 
-        <div class="corridor-grid">
-          <article class="chapter-card"><p class="card-kicker">Launch</p><h3>Saudi Arabia to Nigeria</h3><p>SAR to NGN with SNB or Al Rajhi on the send side and OPay or Kuda on the receive side.</p></article>
-          <article class="chapter-card"><p class="card-kicker">Phase 2</p><h3>UAE to Nigeria</h3><p>AED to NGN with a more open banking-friendly environment on the send side.</p></article>
-          <article class="chapter-card"><p class="card-kicker">Phase 2</p><h3>United Kingdom to Nigeria</h3><p>GBP to NGN with open banking and a large diaspora base.</p></article>
-          <article class="chapter-card"><p class="card-kicker">Phase 2</p><h3>Saudi Arabia to Ghana</h3><p>Same debit partners, new receive rails via mobile money and banks.</p></article>
-          <article class="chapter-card"><p class="card-kicker">Phase 3</p><h3>Saudi Arabia to Kenya</h3><p>M-PESA gives the receive side a compelling mobile-money advantage.</p></article>
-          <article class="chapter-card"><p class="card-kicker">Phase 4</p><h3>United States to Nigeria</h3><p>A large prize but a far heavier licensing and competition landscape.</p></article>
-        </div>
+  <hr class="div">
 
-        <div class="diagram-frame">
-          <div class="mermaid">
+  <!-- ══════════════════════════════════════
+       SECTION 10: GLOBAL CORRIDORS
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="corridors">
+    <div class="section-tag">10 — Multi-Country Expansion</div>
+    <h2>Global Corridors — Starting Point to Expansion</h2>
+    <p class="lead">We launch with the Saudi Arabia → Nigeria corridor. But the same middleware architecture supports any send-country to receive-country pair. Below is our expansion roadmap by corridor — each one requires negotiating a new bank partner on the send side and a fintech partner on the receive side.</p>
+
+    <div class="corridor-grid">
+      <div class="corridor-card">
+        <div class="flags">🇸🇦 → 🇳🇬</div>
+        <div class="route">SAR → NGN</div>
+        <h4>Saudi Arabia → Nigeria</h4>
+        <p>Launch corridor. Largest Nigerian diaspora in the Gulf. 1.5M+ Nigerians in KSA. High Hajj/Umrah season volume.</p>
+        <div class="partners">
+          <span class="badge b-green">LAUNCH</span>
+          <span class="badge b-blue">SNB / Al Rajhi</span>
+          <span class="badge b-green">OPay / Kuda</span>
+        </div>
+      </div>
+      <div class="corridor-card">
+        <div class="flags">🇦🇪 → 🇳🇬</div>
+        <div class="route">AED → NGN</div>
+        <h4>UAE → Nigeria</h4>
+        <p>Second Gulf corridor. Large Nigerian community in Dubai. UAE has more open banking infrastructure than KSA — potentially easier to integrate.</p>
+        <div class="partners">
+          <span class="badge b-amber">PHASE 2</span>
+          <span class="badge b-blue">Emirates NBD / ADCB</span>
+          <span class="badge b-green">OPay / Flutterwave</span>
+        </div>
+      </div>
+      <div class="corridor-card">
+        <div class="flags">🇬🇧 → 🇳🇬</div>
+        <div class="route">GBP → NGN</div>
+        <h4>UK → Nigeria</h4>
+        <p>Largest Nigerian diaspora globally (over 250,000). UK has Open Banking mandates — AISP/PISP integration is well-established. FCA EMI license needed to operate.</p>
+        <div class="partners">
+          <span class="badge b-amber">PHASE 2</span>
+          <span class="badge b-blue">Lloyds / Monzo Open Banking</span>
+          <span class="badge b-green">Flutterwave / OPay</span>
+        </div>
+      </div>
+      <div class="corridor-card">
+        <div class="flags">🇸🇦 → 🇬🇭</div>
+        <div class="route">SAR → GHS</div>
+        <h4>Saudi Arabia → Ghana</h4>
+        <p>Ghanaians are the second-largest West African diaspora in Saudi Arabia. Same Saudi bank partnerships as corridor 1 — only the payout side changes.</p>
+        <div class="partners">
+          <span class="badge b-amber">PHASE 2</span>
+          <span class="badge b-blue">SNB / Al Rajhi</span>
+          <span class="badge b-purple">MTN Mobile Money / AirtelTigo</span>
+        </div>
+      </div>
+      <div class="corridor-card">
+        <div class="flags">🇸🇦 → 🇰🇪</div>
+        <div class="route">SAR → KES</div>
+        <h4>Saudi Arabia → Kenya</h4>
+        <p>Kenya has excellent mobile money infrastructure via M-PESA. Fast to integrate on the receive side. Strong Kenyan worker community in Gulf states.</p>
+        <div class="partners">
+          <span class="badge b-amber">PHASE 3</span>
+          <span class="badge b-blue">SNB</span>
+          <span class="badge b-purple">M-PESA API / Safaricom</span>
+        </div>
+      </div>
+      <div class="corridor-card">
+        <div class="flags">🇺🇸 → 🇳🇬</div>
+        <div class="route">USD → NGN</div>
+        <h4>USA → Nigeria</h4>
+        <p>Massive Nigerian diaspora in the US. Highly competitive market (Remitly, Wise already here). US requires MSB license at federal level and state money transmitter licenses. Long-term play.</p>
+        <div class="partners">
+          <span class="badge b-red">PHASE 4</span>
+          <span class="badge b-blue">ACH / Plaid</span>
+          <span class="badge b-green">Flutterwave / OPay</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram-wrap" style="margin-top:28px">
+      <div class="mermaid">
 graph LR
-    subgraph SEND[Send Countries]
-      KSA[Saudi Arabia]
-      UAE[UAE]
-      UK[United Kingdom]
-      US[United States]
+    subgraph SEND["Send Countries"]
+      KSA[🇸🇦 Saudi Arabia\nSAR]
+      UAE[🇦🇪 UAE\nAED]
+      UK[🇬🇧 United Kingdom\nGBP]
+      US[🇺🇸 United States\nUSD]
     end
 
-    subgraph PLATFORM[RemitBridge Middleware]
-      MW[Transaction and FX Engine]
+    subgraph PLATFORM["RemitBridge\nMiddleware"]
+      MW{{"⚙️\nTransaction\nEngine\n+\nFX Engine"}}
     end
 
-    subgraph RECV[Receive Countries]
-      NG[Nigeria]
-      GH[Ghana]
-      KE[Kenya]
-      SN[Senegal]
+    subgraph RECV["Receive Countries"]
+      NG[🇳🇬 Nigeria\nOPay · Kuda · Banks]
+      GH[🇬🇭 Ghana\nMTN MoMo · Banks]
+      KE[🇰🇪 Kenya\nM-PESA · Banks]
+      SN[🇸🇳 Senegal\nOrange Money]
     end
 
-    KSA --> MW
-    UAE --> MW
-    UK --> MW
-    US --> MW
-    MW --> NG
-    MW --> GH
-    MW --> KE
-    MW --> SN
+    KSA -->|Bank API| MW
+    UAE -->|Open Banking API| MW
+    UK -->|Open Banking / PISP| MW
+    US -->|ACH / Plaid| MW
+
+    MW -->|OPay / Kuda API| NG
+    MW -->|MTN MoMo API| GH
+    MW -->|M-PESA API| KE
+    MW -->|Orange Money API| SN
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- ══════════════════════════════════════
+       SECTION 11: BUILD ROADMAP
+  ══════════════════════════════════════ -->
+  <section class="section reveal" id="roadmap">
+    <div class="section-tag">11 — Build Roadmap</div>
+    <h2>How We Build This — Phase by Phase</h2>
+    <p class="lead">Building everything at once is the fastest way to ship nothing. Below is a phased build plan that gets a real, working SAR → NGN corridor live as fast as possible — then expands from there.</p>
+
+    <div class="phases">
+      <div class="phase">
+        <div>
+          <div class="phase-num">01</div>
+          <div style="margin-top:8px"><span class="badge b-green">Month 1–3</span></div>
+        </div>
+        <div>
+          <h3>Foundation — Core Backend</h3>
+          <ul class="phase-items">
+            <li>Set up cloud infrastructure (AWS Bahrain region) — VPC, RDS, Redis, S3</li>
+            <li>Build User Service: registration, auth (JWT), profile storage</li>
+            <li>Integrate Smile Identity + Dojah for Nigeria KYC</li>
+            <li>Integrate ComplyAdvantage for AML/sanctions screening</li>
+            <li>Build FX Rate Service: poll XE every 30s, cache in Redis, rate locking</li>
+            <li>Build Transaction Engine state machine (all states + transitions)</li>
+            <li>Build Notification Service: Termii SMS + Firebase push</li>
+            <li>Set up audit log and admin ops dashboard (basic)</li>
+            <li>Negotiate and get sandbox access: SNB or Al Rajhi API + OPay API</li>
+          </ul>
+          <div class="phase-meta">
+            <span class="badge b-blue">Backend only</span>
+            <span class="badge b-amber">No mobile app yet</span>
+            <span class="badge b-green">API endpoints tested via Postman</span>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section class="chapter reveal" id="roadmap" data-section>
-        <div class="chapter-header">
-          <div class="chapter-index">10</div>
-          <div>
-            <p class="eyebrow">Roadmap</p>
-            <h2>Build sequence from zero to launch</h2>
-            <p class="chapter-intro">
-              The fastest way to ship is to get the corridor live in constrained phases instead of trying to build every market at once.
-            </p>
+      <div class="phase">
+        <div>
+          <div class="phase-num">02</div>
+          <div style="margin-top:8px"><span class="badge b-blue">Month 3–5</span></div>
+        </div>
+        <div>
+          <h3>Mobile App — Android & iOS (MVP)</h3>
+          <ul class="phase-items">
+            <li>React Native app: single codebase, Android + iOS</li>
+            <li>Onboarding screens: phone OTP, profile, KYC document capture + selfie</li>
+            <li>Home dashboard: balance (placeholder), transaction history</li>
+            <li>Send Money flow: amount input, live rate display, beneficiary selection, confirm screen, PIN auth</li>
+            <li>Beneficiary management: add, save, delete recipients</li>
+            <li>Transaction history screen with receipt download</li>
+            <li>Push notification display (in-app notifications)</li>
+            <li>Connect app to backend APIs in sandbox mode</li>
+          </ul>
+          <div class="phase-meta">
+            <span class="badge b-blue">React Native</span>
+            <span class="badge b-green">Sandbox transactions</span>
+            <span class="badge b-amber">Internal testing only</span>
           </div>
         </div>
+      </div>
 
-        <div class="phase-grid">
-          <article class="phase-card">
-            <p class="card-kicker">Phase 01</p>
-            <h3>Foundation</h3>
-            <ul class="meta-list">
-              <li>Cloud infrastructure, auth, user service, and ledger foundation</li>
-              <li>KYC, AML, and sanctions integrations</li>
-              <li>FX service, notification service, and base admin tooling</li>
-              <li>Bank and payout sandbox access negotiations start immediately</li>
-            </ul>
-          </article>
-          <article class="phase-card">
-            <p class="card-kicker">Phase 02</p>
-            <h3>Mobile MVP</h3>
-            <ul class="meta-list">
-              <li>Onboarding, KYC capture, dashboard, and send-money flow</li>
-              <li>Beneficiary management, receipts, and push notifications</li>
-              <li>End-to-end sandbox transaction testing</li>
-            </ul>
-          </article>
-          <article class="phase-card">
-            <p class="card-kicker">Phase 03</p>
-            <h3>Corridor go-live</h3>
-            <ul class="meta-list">
-              <li>Move Saudi bank and Nigeria payout integrations into production</li>
-              <li>Run closed beta transfers and tighten reconciliation workflows</li>
-              <li>Complete security audit and app store submission</li>
-            </ul>
-          </article>
-          <article class="phase-card">
-            <p class="card-kicker">Phase 04</p>
-            <h3>Expansion</h3>
-            <ul class="meta-list">
-              <li>Extend to UAE and Ghana corridors</li>
-              <li>Add international KYC and multi-currency presentation</li>
-              <li>Launch web dashboards and agent-led transfer tools</li>
-            </ul>
-          </article>
+      <div class="phase">
+        <div>
+          <div class="phase-num">03</div>
+          <div style="margin-top:8px"><span class="badge b-amber">Month 5–6</span></div>
         </div>
+        <div>
+          <h3>Production Go-Live — SAR → NGN Corridor</h3>
+          <ul class="phase-items">
+            <li>Move Saudi bank API from sandbox to production (sign partnership agreements)</li>
+            <li>Move OPay API from sandbox to production</li>
+            <li>Run 50–100 real transactions with internal team and beta users</li>
+            <li>Enable Flutterwave name enquiry for beneficiary verification</li>
+            <li>Set up month-end reconciliation engine + NIBSS batch file generation</li>
+            <li>Security audit: penetration test + code review</li>
+            <li>App store submission: Apple App Store + Google Play</li>
+            <li>Launch to first 500 beta users (Nigerians in Saudi Arabia)</li>
+          </ul>
+          <div class="phase-meta">
+            <span class="badge b-green">Live corridor: SAR → NGN</span>
+            <span class="badge b-red">Real money moving</span>
+            <span class="badge b-amber">Closed beta</span>
+          </div>
+        </div>
+      </div>
 
-        <div class="diagram-frame">
-          <div class="mermaid">
+      <div class="phase">
+        <div>
+          <div class="phase-num">04</div>
+          <div style="margin-top:8px"><span class="badge b-purple">Month 7–10</span></div>
+        </div>
+        <div>
+          <h3>Expansion — UAE + Ghana Corridors</h3>
+          <ul class="phase-items">
+            <li>Negotiate UAE bank API partnership (Emirates NBD or ADCB)</li>
+            <li>Integrate MTN Mobile Money API for Ghana payouts</li>
+            <li>Add AED → NGN and SAR → GHS corridors to Transaction Engine</li>
+            <li>Integrate Jumio/Onfido for international (non-Nigerian) KYC</li>
+            <li>Add multi-currency display to app (user sees their local currency)</li>
+            <li>Build group payment feature for Hajj/Umrah agents</li>
+            <li>Add web dashboard (for agents managing group transfers)</li>
+            <li>Public launch — open to all users</li>
+          </ul>
+          <div class="phase-meta">
+            <span class="badge b-green">3 corridors live</span>
+            <span class="badge b-blue">Public launch</span>
+            <span class="badge b-purple">Agent product</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram-wrap" style="margin-top:32px">
+      <div class="mermaid">
 gantt
-    title RemitBridge rollout
+    title RemitBridge Build Timeline
     dateFormat  YYYY-MM
     axisFormat  %b %Y
 
-    section Phase 1
-    Cloud setup              :2026-04, 2w
-    Core services            :2026-04, 4w
-    KYC and AML adapters     :2026-05, 3w
-    Transaction engine       :2026-05, 4w
+    section Phase 1 — Backend
+    Cloud infra setup            :2026-04, 2w
+    User Service + Auth          :2026-04, 3w
+    KYC integrations (Smile, Dojah) :2026-05, 3w
+    FX Rate Service              :2026-05, 2w
+    Transaction Engine           :2026-05, 4w
+    Bank API sandbox access      :2026-05, 4w
+    OPay API sandbox             :2026-06, 2w
 
-    section Phase 2
-    Mobile foundation        :2026-07, 2w
-    Onboarding and KYC UI    :2026-07, 3w
-    Send flow                :2026-08, 3w
-    Internal testing         :2026-09, 4w
+    section Phase 2 — Mobile App
+    React Native setup + auth    :2026-07, 2w
+    Onboarding + KYC UI          :2026-07, 3w
+    Send Money flow              :2026-08, 3w
+    Transaction history + receipts :2026-08, 2w
+    Internal testing             :2026-09, 4w
 
-    section Phase 3
-    Production partner APIs  :2026-10, 2w
-    Security audit           :2026-10, 3w
-    Beta launch              :2026-11, 4w
+    section Phase 3 — Go Live
+    Production bank API          :2026-10, 2w
+    Security audit               :2026-10, 3w
+    App store submission         :2026-10, 1w
+    Beta launch — 500 users      :2026-11, 4w
 
-    section Phase 4
-    UAE corridor             :2026-12, 6w
-    Ghana corridor           :2027-01, 4w
-    Public launch            :2027-02, 2w
-          </div>
-        </div>
-      </section>
-    </article>
-  </main>
-
-  <footer class="site-footer reveal">
-    <div class="footer-content text-center">
-      <p>&copy; <span data-year>2026</span> The Brave Byte.</p>
+    section Phase 4 — Expansion
+    UAE bank partnership         :2026-12, 6w
+    Ghana MoMo integration       :2027-01, 4w
+    Public launch                :2027-02, 2w
+      </div>
     </div>
-  </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="../../assets/js/site.js"></script>
+    <div class="callout" style="margin-top:24px">
+      <strong>Team you need to build this:</strong> 1× Backend Engineer (Node.js / Python — Transaction Engine + Integrations), 1× Mobile Engineer (React Native), 1× DevOps / Cloud Engineer (AWS setup, CI/CD), 1× Compliance Officer (KYC rules, AML reporting), 1× Product Manager / Founder who manages bank and fintech partnerships. The bank partnership negotiation is the longest critical path — start that conversation on Day 1, before a single line of code is written.
+    </div>
+  </section>
+
+</main>
+
+<!-- Load the updated scripts -->
+<script src="remitbridge.js"></script>
+<!-- Retain site base logic for theme toggle/global actions if needed -->
+<script src="../../assets/js/site.js"></script>
 
 </body>
 </html>
-
