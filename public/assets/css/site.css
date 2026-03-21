@@ -337,10 +337,7 @@ img {
   text-underline-offset: 4px;
 }
 
-/* Animations via GSAP */
-.reveal, .hero-title, .hero-subtitle, .case-item, .doc-content > * {
-  opacity: 0;
-}
+/* Animations via GSAP — initial states set via JS to avoid invisible content on GSAP load failure */
 
 /* Minimalist Document / Dossier Specific Styles */
 .document-container {

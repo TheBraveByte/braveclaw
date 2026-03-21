@@ -49,81 +49,58 @@ function initTheme() {
 
 // --- GSAP Motion UI ---
 function initGSAP() {
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    // GSAP failed to load — ensure everything is visible
+    document.querySelectorAll('.reveal, .hero-title, .hero-subtitle, .case-item, .doc-header').forEach(el => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    return;
+  }
 
   gsap.registerPlugin(ScrollTrigger);
 
+  // Set initial states in JS (not CSS) so content is never invisibly stuck
+  gsap.set('.site-header', { y: -20, opacity: 0 });
+  gsap.set('.hero-title', { y: 40, opacity: 0 });
+  gsap.set('.hero-subtitle', { y: 20, opacity: 0 });
+  gsap.set('.hero-action', { y: 16, opacity: 0 });
+  gsap.set('.case-item', { y: 60, opacity: 0 });
+  gsap.set('.doc-header', { y: 30, opacity: 0 });
+  gsap.set('.doc-content > *', { y: 30, opacity: 0 });
+
   // 1. Hero Reveal Animation
-  const heroTl = gsap.timeline({ defaults: { ease: "power4.out" } });
-  
-  // Fade down the header
+  const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
   if (document.querySelector('.site-header')) {
-    heroTl.fromTo('.site-header', 
-      { y: -20, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 1, delay: 0.2 }
-    );
+    heroTl.to('.site-header', { y: 0, opacity: 1, duration: 1, delay: 0.1 });
   }
-
-  // Elegant text reveal for Hero Title
   if (document.querySelector('.hero-title')) {
-    heroTl.fromTo('.hero-title', 
-      { y: 40, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 1.2 },
-      "-=0.6"
-    );
+    heroTl.to('.hero-title', { y: 0, opacity: 1, duration: 1.2 }, '-=0.6');
   }
-
-  // Subtitle fade
   if (document.querySelector('.hero-subtitle')) {
-    heroTl.fromTo('.hero-subtitle', 
-      { y: 20, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 1 },
-      "-=0.8"
-    );
+    heroTl.to('.hero-subtitle', { y: 0, opacity: 1, duration: 1 }, '-=0.8');
+  }
+  if (document.querySelector('.hero-action')) {
+    heroTl.to('.hero-action', { y: 0, opacity: 1, duration: 0.8 }, '-=0.7');
   }
 
   // 2. ScrollTrigger for Case Studies
-  const caseItems = gsap.utils.toArray('.case-item');
-  caseItems.forEach((item, i) => {
-    gsap.fromTo(item, 
-      { y: 60, opacity: 0 },
-      {
-        y: 0, 
-        opacity: 1, 
-        duration: 1, 
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: item,
-          start: "top 85%",
-          toggleActions: "play none none none"
-        }
-      }
-    );
+  gsap.utils.toArray('.case-item').forEach((item) => {
+    gsap.to(item, {
+      y: 0, opacity: 1, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: item, start: 'top 85%', toggleActions: 'play none none none' }
+    });
   });
 
-  // 3. ScrollTrigger for Document Layout Details (Dossier page)
-  const docElements = gsap.utils.toArray('.doc-content > *');
-  if (docElements.length > 0) {
-    gsap.fromTo('.doc-header', 
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1.2, ease: "power3.out", delay: 0.3 }
-    );
-
-    docElements.forEach((el) => {
-      gsap.fromTo(el, 
-        { y: 30, opacity: 0 },
-        {
-          y: 0, 
-          opacity: 1, 
-          duration: 0.8, 
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 90%",
-            toggleActions: "play none none none"
-          }
-        }
-      );
+  // 3. Document page reveals
+  if (document.querySelector('.doc-header')) {
+    gsap.to('.doc-header', { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out', delay: 0.3 });
+    gsap.utils.toArray('.doc-content > *').forEach((el) => {
+      gsap.to(el, {
+        y: 0, opacity: 1, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' }
+      });
     });
   }
 }
