@@ -614,6 +614,13 @@ img {
 
 .diagram-shell .mermaid {
   min-width: 720px;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", monospace !important;
+  font-size: 11px !important;
+}
+
+code, pre, .mono-text {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", monospace !important;
+  font-size: 11px !important;
 }
 
 .table-wrap {
