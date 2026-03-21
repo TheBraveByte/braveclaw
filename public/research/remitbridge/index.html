@@ -15,66 +15,32 @@
 
   <header class="site-header reveal">
     <a href="../../index.html" class="brand">
-      <img src="../../assets/img/logo.svg" alt="The Brave Byte" class="brand-logo">
-      THE BRAVE BYTE <span>Research Archive</span>
+      <img src="../../assets/img/logo.svg" alt="The Brave Byte Logo" class="brand-logo">
+      <span class="brand-text">The Brave Byte</span>
     </a>
     <nav class="top-nav">
-      <button id="theme-toggle" class="theme-toggle">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
-        Dark
+      <a href="../../index.html" class="nav-link">Home</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+        <span class="theme-icon">Dark</span>
       </button>
-      <a href="../../index.html">Home</a>
     </nav>
   </header>
 
-  <div class="document-layout">
-    <aside class="side-rail" data-nav-spy>
-      <div class="rail-block">
-        <p class="eyebrow">Case file</p>
-        <h2>RemitBridge</h2>
-        <p class="rail-copy">Cross-border remittance middleware platform dossier.</p>
+  <main class="document-container reveal">
+    <header class="doc-header">
+      <h1 class="doc-title">RemitBridge</h1>
+      <p class="doc-content lead">
+        A complete product and technical brief for a remittance middleware layer connecting banks in send markets
+        with licensed payout rails in receive markets, starting with Saudi Arabia to Nigeria.
+      </p>
+      <div class="doc-meta">
+        <span>Architecture Brief</span>
+        <span>v1.0 - March 2026</span>
+        <span>Founders & Tech Lead</span>
       </div>
-      <nav class="rail-nav" aria-label="Section navigation">
-        <a class="rail-link" href="#overview">Overview</a>
-        <a class="rail-link" href="#capabilities">Capabilities</a>
-        <a class="rail-link" href="#onboarding">Onboarding</a>
-        <a class="rail-link" href="#transfer">Transfer flow</a>
-        <a class="rail-link" href="#architecture">Architecture</a>
-        <a class="rail-link" href="#integrations">Integrations</a>
-        <a class="rail-link" href="#engine">Transaction engine</a>
-        <a class="rail-link" href="#security">Security</a>
-        <a class="rail-link" href="#corridors">Corridors</a>
-        <a class="rail-link" href="#roadmap">Roadmap</a>
-      </nav>
-    </aside>
+    </header>
 
-    <main class="document-main">
-      <section class="case-hero reveal">
-        <div class="eyebrow">Dossier 01</div>
-        <h1>RemitBridge</h1>
-        <p class="hero-copy">
-          A complete product and technical brief for a remittance middleware layer connecting banks in send markets
-          with licensed payout rails in receive markets, starting with Saudi Arabia to Nigeria.
-        </p>
-        <div class="hero-strip compact">
-          <div class="hero-strip-item">
-            <span>Document type</span>
-            Product architecture brief
-          </div>
-          <div class="hero-strip-item">
-            <span>Version</span>
-            v1.0 - March 2026
-          </div>
-          <div class="hero-strip-item">
-            <span>Status</span>
-            Pre-build planning
-          </div>
-          <div class="hero-strip-item">
-            <span>Audience</span>
-            Founders and tech lead
-          </div>
-        </div>
-      </section>
+    <article class="doc-content">
 
       <section class="chapter reveal" id="overview" data-section>
         <div class="chapter-header">
@@ -192,7 +158,7 @@
           </article>
         </div>
 
-        <div class="diagram-shell">
+        <div class="diagram-frame">
           <div class="mermaid">
 flowchart TD
     A([User opens app]) --> B[Enter phone and country]
@@ -254,7 +220,7 @@ flowchart TD
           </article>
         </div>
 
-        <div class="diagram-shell">
+        <div class="diagram-frame">
           <div class="mermaid">
 sequenceDiagram
     actor U as Sender
@@ -302,7 +268,7 @@ sequenceDiagram
           <article class="chapter-card"><h3>Payout connectors</h3><p>OPay, Kuda, Moniepoint, and fallback routes can be swapped by the transaction engine.</p></article>
         </div>
 
-        <div class="diagram-shell">
+        <div class="diagram-frame">
           <div class="mermaid">
 graph TB
     subgraph CLIENT[Client Layer]
@@ -472,7 +438,7 @@ graph TB
           </div>
         </div>
 
-        <div class="diagram-shell">
+        <div class="diagram-frame">
           <div class="mermaid">
 stateDiagram-v2
     [*] --> INITIATED
@@ -548,7 +514,7 @@ stateDiagram-v2
           <article class="chapter-card"><p class="card-kicker">Phase 4</p><h3>United States to Nigeria</h3><p>A large prize but a far heavier licensing and competition landscape.</p></article>
         </div>
 
-        <div class="diagram-shell">
+        <div class="diagram-frame">
           <div class="mermaid">
 graph LR
     subgraph SEND[Send Countries]
@@ -633,7 +599,7 @@ graph LR
           </article>
         </div>
 
-        <div class="diagram-shell">
+        <div class="diagram-frame">
           <div class="mermaid">
 gantt
     title RemitBridge rollout
@@ -664,12 +630,14 @@ gantt
           </div>
         </div>
       </section>
-    </main>
-  </div>
+    </article>
+  </main>
 
-  <footer class="site-footer">
-    <p>Braveclaw Research Archive</p>
-    <p><span data-year></span></p>
+  <footer class="site-footer reveal">
+    <div class="footer-content">
+      <p>&copy; <span data-year>2026</span> The Brave Byte.</p>
+      <a href="https://madebyduo.com" target="_blank" class="footer-link">Inspired by Duo</a>
+    </div>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>

@@ -3,111 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Braveclaw | Private Research Workspace</title>
-  <meta name="description" content="Braveclaw is a grayscale research workspace for product briefs, architecture notes, and strategic dossiers.">
+  <title>The Brave Byte | Strategic Research & Findings</title>
+  <meta name="description" content="Strategic Research & Findings. Turning startup ideas into reality.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body class="shell home-shell">
-  <div class="grain-layer" aria-hidden="true"></div>
-
+<body class="theme-light">
+  
   <header class="site-header reveal">
     <a href="index.html" class="brand">
-      <img src="assets/img/logo.svg" alt="The Brave Byte" class="brand-logo">
-      THE BRAVE BYTE <span>Research Archive</span>
+      <img src="assets/img/logo.svg" alt="The Brave Byte Logo" class="brand-logo">
+      <span class="brand-text">The Brave Byte</span>
     </a>
     <nav class="top-nav">
-      <button id="theme-toggle" class="theme-toggle">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
-        Dark
+      <a href="research/remitbridge/index.html" class="nav-link">Findings</a>
+      <a href="https://github.com/TheBraveByte/braveclaw" target="_blank" class="nav-link">Archive</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+        <span class="theme-icon">Dark</span>
       </button>
-      <a href="research/remitbridge/index.html">Selected Projects</a>
-      <a href="https://github.com/TheBraveByte/braveclaw" target="_blank">Repository</a>
     </nav>
   </header>
 
-  <main class="page-stack">
-    <section class="hero-panel reveal">
-      <div class="hero-content">
-        <p class="eyebrow">Intellectual Property & Technical Archive</p>
-        <h1 class="hero-title">Engineering the Future of Digital Commerce.</h1>
-        <p class="hero-copy">
-          A dedicated space for the rigorous documentation, research, and analysis of high-performance technical systems. From RemitBridge to next-gen architectural patterns.
-        </p>
-        <div class="hero-actions">
-          <a href="#library" class="button-primary">Browse Library</a>
-          <a href="https://madebyduo.com" target="_blank" class="button-secondary">Design Inspiration</a>
-        </div>
-      </div>
-      <div class="hero-strip">
-        <div class="hero-strip-item">
-          <span>Deployment target</span>
-          GitHub Pages
-        </div>
-        <div class="hero-strip-item">
-          <span>Library Version</span>
-          v2.0.4 Beta
-        </div>
-        <div class="hero-strip-item">
-          <span>Internal State</span>
-          Live Archive
-        </div>
-      </div>
+  <main class="page-container">
+    <section class="hero reveal">
+      <h1 class="hero-title">Strategic Research <br>& Findings.</h1>
+      <p class="hero-subtitle">Solving complex business problems, providing rigorous solutions, and turning startup ideas into reality.</p>
     </section>
 
-    <section id="library" class="section-block reveal">
-      <div class="section-head">
-        <p class="eyebrow">Active Research</p>
-        <h2>The Library Repository</h2>
-      </div>
-      <div class="folder-grid">
-        <article class="folder-card reveal">
-          <p class="card-kicker">Product Brief</p>
-          <h3>RemitBridge</h3>
-          <p>Full-scale architecture and strategy for a cross-border payment middleware.</p>
-          <ul class="meta-list">
-            <li><span>Status</span> Stable</li>
-            <li><span>Last Mod</span> Mar 2026</li>
-          </ul>
-          <a href="research/remitbridge/index.html" class="button-secondary">Open Dossier</a>
-        </article>
-        
-        <article class="folder-card reveal">
-          <p class="card-kicker">Shared Systems</p>
-          <h3>Technical Assets</h3>
-          <p>Global design tokens and interactive behaviors shared across all research dossiers.</p>
-          <ul class="meta-list">
-            <li><span>Status</span> Integrated</li>
-            <li><span>Ref</span> /public/assets</li>
-          </ul>
+    <section class="work-section reveal">
+      <div class="section-label">Selected Case Studies</div>
+      
+      <div class="case-list">
+        <article class="case-item">
+          <a href="research/remitbridge/index.html" class="case-link">
+            <h2 class="case-title">RemitBridge</h2>
+            <div class="case-meta">
+              <span>Architecture</span>
+              <span>Cross-border Payments</span>
+              <span>2026</span>
+            </div>
+            <p class="case-desc">A full product, architecture, and compliance brief for a cross-border remittance middleware platform.</p>
+          </a>
         </article>
 
-        <article class="folder-card reveal">
-          <p class="card-kicker">Structure</p>
-          <h3>Folder Map</h3>
-          <p>Modular organization system designed for rapid expansion of the research library.</p>
-          <ul class="meta-list">
-            <li><span>Ready</span> Yes</li>
-            <li><span>Type</span> Folder-first</li>
-          </ul>
+        <article class="case-item case-item-upcoming">
+          <div class="case-link no-hover">
+            <h2 class="case-title">Future Findings</h2>
+            <div class="case-meta">
+              <span>Ideation</span>
+              <span>Startups</span>
+            </div>
+            <p class="case-desc">Upcoming market studies, competitor maps, and operating notes for new ventures.</p>
+          </div>
         </article>
       </div>
     </section>
   </main>
 
   <footer class="site-footer reveal">
-    <div class="footer-left">
-      <p>&copy; <span data-year>2026</span> THE BRAVE BYTE. All rights reserved.</p>
-    </div>
-    <div class="footer-right">
-      <a href="https://github.com/TheBraveByte/braveclaw" target="_blank">View on GitHub</a>
-      <a href="https://madebyduo.com" target="_blank">Duo Inspiration</a>
+    <div class="footer-content">
+      <p>&copy; <span data-year>2026</span> The Brave Byte.</p>
+      <a href="https://madebyduo.com" target="_blank" class="footer-link">Inspired by Duo</a>
     </div>
   </footer>
 
   <script src="assets/js/site.js"></script>
 </body>
 </html>
-

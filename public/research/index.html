@@ -3,78 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Research Library | Braveclaw</title>
-  <meta name="description" content="Browse research dossiers and case files inside Braveclaw.">
+  <title>The Brave Byte | Findings Archive</title>
+  <meta name="description" content="Archive of strategic research and startup ideation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/site.css">
 </head>
-<body class="shell">
-  <div class="grain-layer" aria-hidden="true"></div>
-
+<body class="theme-light">
+  
   <header class="site-header reveal">
     <a href="../index.html" class="brand">
-      <img src="../assets/img/logo.svg" alt="The Brave Byte" class="brand-logo">
-      THE BRAVE BYTE <span>Research Archive</span>
+      <img src="../assets/img/logo.svg" alt="The Brave Byte Logo" class="brand-logo">
+      <span class="brand-text">The Brave Byte</span>
     </a>
     <nav class="top-nav">
-      <button id="theme-toggle" class="theme-toggle">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
-        Dark
+      <a href="../index.html" class="nav-link">Home</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+        <span class="theme-icon">Dark</span>
       </button>
-      <a href="../index.html">Home</a>
     </nav>
   </header>
 
-  <main class="page-stack">
-    <section class="section-block reveal">
-      <div class="section-head">
-        <p class="eyebrow">Research library</p>
-        <h1 class="library-title">Case files, briefs, and working notes live here.</h1>
-      </div>
-      <p class="library-copy">
-        Each topic gets its own folder so the repo can grow into a real archive rather than a stack of disconnected HTML files.
-      </p>
+  <main class="page-container">
+    <section class="hero reveal">
+      <h1 class="hero-title">Research Archive.</h1>
+      <p class="hero-subtitle">Completed case studies, working notes, and future startup ideation.</p>
     </section>
 
-    <section class="library-grid">
-      <article class="feature-card reveal">
-        <p class="card-kicker">Dossier 01</p>
-        <h2>RemitBridge</h2>
-        <p>Cross-border remittance product brief, full architecture plan, corridor roadmap, and launch phases.</p>
-        <ul class="meta-list">
-          <li>Product vision and monetization</li>
-          <li>Send and receive journey mapping</li>
-          <li>Integrations, compliance, and rollout plan</li>
-        </ul>
-        <a class="button-secondary" href="remitbridge/index.html">Open dossier</a>
-      </article>
+    <section class="work-section reveal">
+      <div class="section-label">All Findings</div>
+      
+      <div class="case-list">
+        <article class="case-item">
+          <a href="remitbridge/index.html" class="case-link">
+            <h2 class="case-title">RemitBridge</h2>
+            <div class="case-meta">
+              <span>Architecture</span>
+              <span>v1.0</span>
+            </div>
+            <p class="case-desc">Cross-border remittance product brief and architecture plan.</p>
+          </a>
+        </article>
 
-      <article class="feature-card reveal">
-        <p class="card-kicker">Reserved</p>
-        <h2>Future market studies</h2>
-        <p>Use this section for competitor maps, pricing memos, customer interviews, and corridor-specific operating notes.</p>
-      </article>
-
-      <article class="feature-card reveal">
-        <p class="card-kicker">Reserved</p>
-        <h2>Internal playbooks</h2>
-        <p>Use this area for founder notes, technical runbooks, partnership templates, and research synthesis pages.</p>
-      </article>
+        <article class="case-item case-item-upcoming">
+          <div class="case-link no-hover">
+            <h2 class="case-title">Market Scans (Upcoming)</h2>
+            <div class="case-meta">
+              <span>Ideation</span>
+              <span>Startups</span>
+            </div>
+            <p class="case-desc">Competitor maps, pricing memos, and corridor-specific operating notes.</p>
+          </div>
+        </article>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer reveal">
-    <div class="footer-left">
-      <p>&copy; <span data-year>2026</span> THE BRAVE BYTE. All rights reserved.</p>
-    </div>
-    <div class="footer-right">
-      <a href="https://github.com/TheBraveByte/braveclaw" target="_blank">View on GitHub</a>
+    <div class="footer-content">
+      <p>&copy; <span data-year>2026</span> The Brave Byte.</p>
+      <a href="https://madebyduo.com" target="_blank" class="footer-link">Inspired by Duo</a>
     </div>
   </footer>
 
   <script src="../assets/js/site.js"></script>
 </body>
 </html>
-
