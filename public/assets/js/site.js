@@ -51,7 +51,7 @@ function initTheme() {
 function initGSAP() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
     // GSAP failed to load — ensure everything is visible
-    document.querySelectorAll('.reveal, .hero-title, .hero-subtitle, .case-item, .doc-header').forEach(el => {
+    document.querySelectorAll('.reveal, .hero-title, .hero-subtitle, .card, .step, .doc-header').forEach(el => {
       el.style.opacity = '1';
       el.style.transform = 'none';
     });
@@ -65,7 +65,7 @@ function initGSAP() {
   gsap.set('.hero-title', { y: 40, opacity: 0 });
   gsap.set('.hero-subtitle', { y: 20, opacity: 0 });
   gsap.set('.hero-action', { y: 16, opacity: 0 });
-  gsap.set('.case-item', { y: 60, opacity: 0 });
+  gsap.set('.card, .step', { y: 60, opacity: 0 });
   gsap.set('.doc-header', { y: 30, opacity: 0 });
   gsap.set('.doc-content > *', { y: 30, opacity: 0 });
 
@@ -85,8 +85,8 @@ function initGSAP() {
     heroTl.to('.hero-action', { y: 0, opacity: 1, duration: 0.8 }, '-=0.7');
   }
 
-  // 2. ScrollTrigger for Case Studies
-  gsap.utils.toArray('.case-item').forEach((item) => {
+  // 2. ScrollTrigger for Premium Components
+  gsap.utils.toArray('.card, .step').forEach((item) => {
     gsap.to(item, {
       y: 0, opacity: 1, duration: 1, ease: 'power3.out',
       scrollTrigger: { trigger: item, start: 'top 85%', toggleActions: 'play none none none' }

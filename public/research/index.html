@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/site.css">
 </head>
-<body class="theme-light">
+<body data-theme="dark">
   
   <header class="site-header reveal">
     <a href="../index.html" class="brand">
@@ -19,43 +19,53 @@
     </a>
     <nav class="top-nav">
       <a href="../index.html" class="nav-link">Home</a>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
-        <span class="theme-icon">Dark</span>
-      </button>
+      <!-- Theme toggle removed to enforce consistency with premium dossiers -->
     </nav>
   </header>
 
   <main class="page-container page-container-narrow">
-    <section class="hero reveal text-center">
-      <h1 class="hero-title">Research Findings.</h1>
-      <p class="hero-subtitle">Completed case studies, working notes, and future startup ideation.</p>
+    <section class="hero reveal text-center" style="padding-bottom: 6vh;">
+      <h1 class="hero-title">Research Archive.</h1>
+      <p class="hero-subtitle" style="margin: 0 auto;">Completed architectural dossiers, structural working notes, and future startup ideation.</p>
     </section>
 
-    <section class="work-section reveal">
-      <div class="section-label">All Findings</div>
-      
-      <div class="case-list">
-        <article class="case-item">
-          <a href="remitbridge/index.html" class="case-link">
-            <h2 class="case-title">RemitBridge</h2>
-            <div class="case-meta">
-              <span>Architecture</span>
-              <span>v1.0</span>
-            </div>
-            <p class="case-desc">Cross-border remittance product brief and architecture plan.</p>
-          </a>
-        </article>
-
-        <article class="case-item case-item-upcoming">
-          <div class="case-link no-hover">
-            <h2 class="case-title">Market Scans (Upcoming)</h2>
-            <div class="case-meta">
-              <span>Ideation</span>
-              <span>Startups</span>
-            </div>
-            <p class="case-desc">Competitor maps, pricing memos, and corridor-specific operating notes.</p>
+    <section class="section reveal" style="margin-top: 40px;">
+      <div class="section-tag">Case Studies</div>
+      <h2>Completed Dossiers</h2>
+      <div class="grid grid-2">
+        <a href="remitbridge/index.html" class="card accent-top" style="display:block; text-decoration:none;">
+          <div class="card-label">Architecture Dossier</div>
+          <h3 style="transition: color 0.2s;">RemitBridge</h3>
+          <p style="margin-bottom: 20px;">Cross-border remittance middleware connecting Saudi Arabia to Nigeria. B2B2C API structure and KYC compliance mapping.</p>
+          <div class="tags">
+            <span class="badge b-green">Fintech</span>
+            <span class="badge b-blue">v1.0</span>
+            <span class="badge b-purple">LIVE</span>
           </div>
-        </article>
+        </a>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-tag">Working Notes</div>
+      <h2>Upcoming Research</h2>
+      <div class="grid grid-2">
+        <div class="card blue-top" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="card-label">Market Scan</div>
+            <h3>AI Security Compliance</h3>
+            <p style="margin-bottom: 20px;">Mapping the regulatory landscape for autonomous enterprise AI agents to ensure SOC2/GDPR readiness.</p>
+          </div>
+          <div class="tags"><span class="badge b-amber">IN PROGRESS</span></div>
+        </div>
+        <div class="card blue-top" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="card-label">Structural Blueprint</div>
+            <h3>Unified Logistics API</h3>
+            <p style="margin-bottom: 20px;">Aggregating last-mile delivery providers across West Africa into a single GraphQL interface.</p>
+          </div>
+          <div class="tags"><span class="badge b-amber">IN PROGRESS</span></div>
+        </div>
       </div>
     </section>
   </main>

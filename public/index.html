@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body class="theme-light">
+<body data-theme="dark">
   
   <header class="site-header reveal">
     <a href="index.html" class="brand">
@@ -19,18 +19,82 @@
     </a>
     <nav class="top-nav">
       <a href="research/index.html" class="nav-link">Findings</a>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
-        <span class="theme-icon">Dark</span>
-      </button>
+      <!-- Theme toggle removed to enforce consistency with premium dossiers -->
     </nav>
   </header>
 
   <main class="page-container page-container-narrow">
-    <section class="hero reveal text-center">
-      <h1 class="hero-title">Strategic Research <br>& Findings.</h1>
-      <p class="hero-subtitle">Solving complex business problems, providing rigorous solutions, and turning startup ideas into reality.</p>
-      <div class="hero-action">
-        <a href="research/index.html" class="cta-button">View Findings</a>
+    <!-- Hero -->
+    <section class="hero reveal text-center" style="padding-bottom: 6vh;">
+      <h1 class="hero-title">Engineering solutions <br>for complex gaps.</h1>
+      <p class="hero-subtitle" style="margin: 0 auto;">The Brave Byte is a specialized product and architecture lab. We don't just write code—we design the entire technical blueprint and business logic needed to turn ambitious ideas into reality.</p>
+    </section>
+
+    <!-- Problem / Solution -->
+    <section class="section reveal">
+      <div class="section-tag" style="text-align: center;">Our Thesis</div>
+      <h2 style="text-align: center; margin-bottom: 48px;">The Problem & The Solution</h2>
+      <div class="grid grid-2">
+        <div class="card accent-top">
+          <div class="card-label">The Problem</div>
+          <h3>Great ideas fail at the structural level.</h3>
+          <p>Most startups rush into building before charting their data architecture, API integrations, or regulatory compliance protocols. This leads to brittle systems, technical debt, and products that fail to scale or pass compliance checks.</p>
+        </div>
+        <div class="card blue-top">
+          <div class="card-label">The Solution</div>
+          <h3>Rigorous Architectural Blueprints.</h3>
+          <p>Before a single line of code is written, we map every user journey, database schema, and third-party API integration. We deliver a complete dossier that technical and non-technical founders can use to build confidently.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Methodology -->
+    <section class="section reveal">
+      <div class="section-tag">Methodology</div>
+      <h2>How we work</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Deep Domain Research</h4>
+            <p>We analyze the market gap, competitive landscape, and regulatory requirements specific to the product geometry.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>System Architecture Design</h4>
+            <p>We map the data flow, state machines, microservices, and external API integrations into visual, interactive diagrams.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Comprehensive Dossier Handover</h4>
+            <p>You receive an agency-grade technical document outlining the exact execution roadmap, ready for a dev team.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selected Work -->
+    <section class="section reveal">
+      <div class="section-tag">Case Studies</div>
+      <h2>Selected Research</h2>
+      <div class="grid grid-2">
+        <a href="research/remitbridge/index.html" class="card accent-top" style="display:block; text-decoration:none;">
+          <div class="card-label">Architecture Dossier</div>
+          <h3>RemitBridge</h3>
+          <p style="margin-bottom: 20px;">Cross-border remittance middleware platform connecting Saudi Arabia to Nigeria. Includes full API mappings and KYC flows.</p>
+          <div class="tags">
+            <span class="badge b-green">Fintech</span>
+            <span class="badge b-blue">v1.0</span>
+          </div>
+        </a>
+        <a href="research/index.html" class="card blue-top" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-decoration:none; text-align:center;">
+          <h3 style="margin-bottom: 6px;">View All Findings</h3>
+          <p>Explore the full archive of structural research and ideation.</p>
+        </a>
       </div>
     </section>
   </main>

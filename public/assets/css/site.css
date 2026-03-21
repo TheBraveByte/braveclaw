@@ -1,38 +1,28 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
 
 :root {
-  /* Colors - Light Theme */
-  --bg: #ffffff;
-  --ink: #000000;
-  --ink-light: #555555;
-  --line: rgba(0, 0, 0, 0.1);
-  --line-strong: rgba(0, 0, 0, 0.2);
-  --hover-bg: #fafafa;
+  /* Colors - Enforced Dark Theme for Premium Aesthetic */
+  --bg: #07090f;
+  --s1: #0d1117;
+  --s2: #111827;
+  --ink: #ffffff;
+  --ink-light: #aaa;
+  --line: #1e2d3d;
+  --line-strong: #263547;
+  --hover-bg: #0d1117;
   
-  --logo-primary: #000000;
-  --logo-secondary: #aaaaaa;
+  --logo-primary: #ffffff;
+  --logo-secondary: #aaa;
 
   /* Typography */
-  --serif: "Cormorant Garamond", serif;
-  --sans: "Space Grotesk", sans-serif;
-  --mono: "Monaco", "Menlo", "IBM Plex Mono", monospace;
+  --serif: 'Syne', sans-serif;
+  --sans: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
   
   /* Layout */
   --max-width: 1400px;
   --nav-height: 100px;
   --transition: 400ms cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-[data-theme="dark"] {
-  --bg: #000000;
-  --ink: #ffffff;
-  --ink-light: #aaaaaa;
-  --line: rgba(255, 255, 255, 0.15);
-  --line-strong: rgba(255, 255, 255, 0.3);
-  --hover-bg: #0a0a0a;
-  
-  --logo-primary: #ffffff;
-  --logo-secondary: #555555;
 }
 
 * {
@@ -81,8 +71,9 @@ img {
   font-family: var(--sans);
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.85rem;
+  letter-spacing: -0.5px;
+  font-size: 1.1rem;
+  font-weight: 800;
 }
 
 .brand-logo {
@@ -96,7 +87,9 @@ img {
   align-items: center;
   font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 2px;
+  font-family: var(--mono);
+  font-size: 11px;
 }
 
 .nav-link {
@@ -122,25 +115,8 @@ img {
   transform-origin: left;
 }
 
-/* Theme Toggle */
-.theme-toggle {
-  background: none;
-  border: 1px solid var(--line);
-  color: var(--ink);
-  padding: 8px 16px;
-  border-radius: 99px;
-  cursor: pointer;
-  font-family: var(--sans);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: all var(--transition);
-}
-
-.theme-toggle:hover {
-  background: var(--ink);
-  color: var(--bg);
-}
+/* Theme Toggle Removed - Global Dark Mode Enforced */
+.theme-toggle { display: none; }
 
 /* Main Layout */
 .page-container {
@@ -170,19 +146,19 @@ img {
   margin: 0 0 32px;
   font-family: var(--serif);
   font-size: clamp(3rem, 6vw, 4.8rem);
-  font-weight: 400;
+  font-weight: 800;
   line-height: 1.05;
-  letter-spacing: -0.01em;
+  letter-spacing: -1.5px;
 }
 
 .hero-subtitle {
   margin: 0;
   font-family: var(--sans);
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-  font-weight: 300;
+  font-weight: 400;
   color: var(--ink-light);
-  max-width: 800px;
-  line-height: 1.4;
+  max-width: 600px;
+  line-height: 1.6;
 }
 
 .hero-action {
@@ -448,3 +424,83 @@ code, .mono-text {
     padding: 32px 24px;
   }
 }
+
+/* ── PREMIUM COMPONENTS (Ported from RemitBridge) ── */
+.grid { display: grid; gap: 14px; }
+.grid-2 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+
+.card {
+  background: var(--s1);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 24px;
+  transition: transform var(--transition), border-color var(--transition);
+}
+.card:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+
+.card.accent-top { border-top: 2px solid var(--ink); }
+.card.blue-top { border-top: 2px solid #ddd; }
+.card.purple-top { border-top: 2px solid #aaa; }
+.card.amber-top { border-top: 2px solid #888; }
+
+.card-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--ink-light);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.card h3 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
+.card p { font-size: 0.95rem; color: var(--ink-light); line-height: 1.6; margin: 0; }
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.b-green { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.25); }
+.b-blue  { background: rgba(200,200,200,0.1); color: #ccc; border: 1px solid rgba(200,200,200,0.25); }
+.b-amber { background: rgba(150,150,150,0.1); color: #aaa; border: 1px solid rgba(150,150,150,0.25); }
+
+/* ── STEPS ── */
+.steps { display: flex; flex-direction: column; gap: 0; margin-top: 32px; }
+.step { display: flex; gap: 24px; padding-bottom: 32px; position: relative; }
+.step::before {
+  content: ''; position: absolute; left: 18px; top: 40px; bottom: 0; width: 1px; background: var(--line-strong);
+}
+.step:last-child::before { display: none; }
+.step:last-child { padding-bottom: 0; }
+
+.step-num {
+  width: 36px; height: 36px; min-width: 36px;
+  background: var(--s2); border: 1px solid var(--line-strong); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--ink);
+}
+.step-body h4 { font-family: var(--serif); font-weight: 700; font-size: 1.1rem; color: var(--ink); margin: 6px 0 8px; }
+.step-body p { font-size: 0.95rem; color: var(--ink-light); line-height: 1.6; margin: 0; }
+.step-body .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+/* ── SECTION HEADERS ── */
+.section-tag {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--ink); margin-bottom: 8px;
+}
+.section { margin-bottom: 96px; }
+.section > h2 { font-family: var(--serif); font-size: clamp(24px, 4vw, 36px); font-weight: 700; margin: 0 0 16px; line-height: 1.1; }
+.section > .lead { color: var(--ink-light); font-size: 1.15rem; max-width: 700px; line-height: 1.6; margin-bottom: 40px; }
+
