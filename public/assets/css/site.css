@@ -116,11 +116,19 @@ img {
 .site-header {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 24px 28px 0;
+  padding: 32px 28px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 24px;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .brand {
