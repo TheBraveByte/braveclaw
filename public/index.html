@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Braveclaw | Private Research Workspace</title>
+  <meta name="description" content="Braveclaw is a grayscale research workspace for product briefs, architecture notes, and strategic dossiers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body class="shell home-shell">
+  <div class="grain-layer" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="/">Braveclaw <span>Research</span></a>
+    <nav class="top-nav" aria-label="Primary">
+      <a href="/research/">Library</a>
+      <a href="/research/remitbridge/">RemitBridge</a>
+    </nav>
+  </header>
+
+  <main class="page-stack">
+    <section class="hero-panel reveal">
+      <div class="eyebrow">Private working archive</div>
+      <h1 class="hero-title">A quieter black, white, and grey system for serious research.</h1>
+      <p class="hero-copy">
+        The original one-file HTML brief has been reframed as a folder-first archive with a stronger editorial look:
+        monochrome, structured, and ready for future case files without redesigning the repo every time.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href="/research/remitbridge/">Open the RemitBridge dossier</a>
+        <a class="button button-secondary" href="/research/">Browse the library</a>
+      </div>
+      <div class="hero-strip">
+        <div class="hero-strip-item">
+          <span>Design direction</span>
+          Editorial monochrome
+        </div>
+        <div class="hero-strip-item">
+          <span>Deployment target</span>
+          GitHub Pages
+        </div>
+        <div class="hero-strip-item">
+          <span>Structure</span>
+          Folder-first research library
+        </div>
+      </div>
+    </section>
+
+    <section class="showcase-grid">
+      <article class="feature-card reveal">
+        <p class="card-kicker">Current case file</p>
+        <h2>RemitBridge</h2>
+        <p>
+          A full product, architecture, compliance, and rollout brief for a cross-border remittance
+          middleware platform, redesigned into a more distinctive reading experience.
+        </p>
+        <ul class="meta-list">
+          <li>10 chapters covering vision, KYC, transaction flow, integrations, security, and rollout</li>
+          <li>Mermaid diagrams preserved and re-themed to match the grayscale dossier aesthetic</li>
+          <li>Ready to grow into adjacent notes, market research, and operating documents</li>
+        </ul>
+        <a class="text-link" href="/research/remitbridge/">Read the dossier</a>
+      </article>
+
+      <article class="feature-card reveal">
+        <p class="card-kicker">System shape</p>
+        <h2>Made for expansion</h2>
+        <p>
+          Shared assets live in one place, while each research topic gets its own subfolder. That means
+          new projects can slot in cleanly as separate dossiers instead of becoming one oversized page.
+        </p>
+        <div class="directory-row">
+          <span class="directory-chip">/public/assets</span>
+          <span class="directory-chip">/public/research</span>
+          <span class="directory-chip">/public/research/remitbridge</span>
+        </div>
+      </article>
+
+      <article class="feature-card reveal">
+        <p class="card-kicker">Visual language</p>
+        <h2>Borrowed from the earlier portfolio mood</h2>
+        <p>
+          The new direction keeps the restrained black, white, and warm-grey palette you described,
+          but shifts it into a more archival and deliberate layout instead of the neon-heavy product brief style.
+        </p>
+        <div class="tone-scale" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-block reveal">
+      <div class="section-head">
+        <p class="eyebrow">Folder map</p>
+        <h2>Built to hold more than one document</h2>
+      </div>
+      <div class="folder-grid">
+        <article class="folder-card">
+          <h3>/public/assets</h3>
+          <p>Shared CSS and JavaScript so each new dossier inherits the same design system and behavior.</p>
+        </article>
+        <article class="folder-card">
+          <h3>/public/research</h3>
+          <p>The main library index. Future work can live as clean subfolders with their own landing pages.</p>
+        </article>
+        <article class="folder-card">
+          <h3>/public/research/remitbridge</h3>
+          <p>The first full case file, transformed from your supplied HTML into a more distinctive presentation.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Braveclaw Research Archive</p>
+    <p><span data-year></span></p>
+  </footer>
+
+  <script src="/assets/js/site.js"></script>
+</body>
+</html>
+
