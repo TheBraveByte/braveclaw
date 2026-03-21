@@ -1,113 +1,157 @@
-const revealTargets = document.querySelectorAll(".reveal");
+/**
+ * Braveclaw / The Brave Byte Site Logic
+ * Premium GSAP Motion UI & Theme Management
+ */
 
-if (revealTargets.length) {
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
+// --- Theme Management ---
+function initTheme() {
+  const themeToggle = document.getElementById("theme-toggle");
+  const html = document.documentElement;
+  
+  if (!themeToggle) return;
 
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.12 }
-  );
-
-  revealTargets.forEach((target) => revealObserver.observe(target));
-}
-
-document.querySelectorAll("[data-year]").forEach((node) => {
-  node.textContent = String(new Date().getFullYear());
-});
-
-// Theme Switching Logic
-const themeBtn = document.querySelector("#theme-toggle");
-const html = document.documentElement;
-
-const getStoredTheme = () => localStorage.getItem("theme");
-const setStoredTheme = (theme) => localStorage.setItem("theme", theme);
-
-const applyTheme = (theme) => {
-  html.setAttribute("data-theme", theme);
-  const isDark = theme === "dark";
-  if (themeBtn) {
-    themeBtn.innerHTML = isDark 
-      ? '<svg class="icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L19.42 4.58zM5.99 18.01l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0z"/></svg> Light'
-      : '<svg class="icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg> Dark';
+  // Retrieve saved theme or default to light
+  let currentTheme = localStorage.getItem("theme");
+  
+  // Apply initial theme
+  if (currentTheme) {
+    html.setAttribute("data-theme", currentTheme);
+  } else {
+    currentTheme = "light";
   }
-};
 
-const initialTheme = getStoredTheme() || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-applyTheme(initialTheme);
+  updateToggleText(currentTheme === "dark");
 
-if (themeBtn) {
-  themeBtn.addEventListener("click", () => {
-    const current = html.getAttribute("data-theme");
-    const next = current === "dark" ? "light" : "dark";
-    applyTheme(next);
-    setStoredTheme(next);
-    location.reload(); 
-  });
-}
-
-const spyContainer = document.querySelector("[data-nav-spy]");
-const sections = document.querySelectorAll("[data-section]");
-
-if (spyContainer && sections.length) {
-  const links = Array.from(spyContainer.querySelectorAll("a[href^='#']"));
-
-  const syncActiveLink = (id) => {
-    links.forEach((link) => {
-      const isMatch = link.getAttribute("href") === `#${id}`;
-      link.classList.toggle("is-active", isMatch);
-    });
-  };
-
-  const sectionObserver = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-      if (visible) {
-        syncActiveLink(visible.target.id);
+  // Toggle Listener
+  themeToggle.addEventListener("click", () => {
+    const isDark = html.getAttribute("data-theme") === "dark";
+    const newTheme = isDark ? "light" : "dark";
+    
+    html.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    updateToggleText(!isDark);
+    
+    // Smooth reload for Mermaid specifically, if it exists, to re-render in correct colors
+    setTimeout(() => {
+      if (document.querySelector(".mermaid")) {
+        location.reload();
       }
-    },
-    {
-      rootMargin: "-25% 0px -55% 0px",
-      threshold: [0.2, 0.45, 0.7],
-    }
-  );
+    }, 150);
+  });
 
-  sections.forEach((section) => sectionObserver.observe(section));
+  function updateToggleText(isDark) {
+    const iconSpan = themeToggle.querySelector('.theme-icon');
+    if(iconSpan) {
+      iconSpan.textContent = isDark ? "Light" : "Dark";
+    }
+  }
 }
 
-if (window.mermaid) {
+// --- GSAP Motion UI ---
+function initGSAP() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // 1. Hero Reveal Animation
+  const heroTl = gsap.timeline({ defaults: { ease: "power4.out" } });
+  
+  // Fade down the header
+  if (document.querySelector('.site-header')) {
+    heroTl.fromTo('.site-header', 
+      { y: -20, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 1, delay: 0.2 }
+    );
+  }
+
+  // Elegant text reveal for Hero Title
+  if (document.querySelector('.hero-title')) {
+    heroTl.fromTo('.hero-title', 
+      { y: 40, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 1.2 },
+      "-=0.6"
+    );
+  }
+
+  // Subtitle fade
+  if (document.querySelector('.hero-subtitle')) {
+    heroTl.fromTo('.hero-subtitle', 
+      { y: 20, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 1 },
+      "-=0.8"
+    );
+  }
+
+  // 2. ScrollTrigger for Case Studies
+  const caseItems = gsap.utils.toArray('.case-item');
+  caseItems.forEach((item, i) => {
+    gsap.fromTo(item, 
+      { y: 60, opacity: 0 },
+      {
+        y: 0, 
+        opacity: 1, 
+        duration: 1, 
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: item,
+          start: "top 85%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+  });
+
+  // 3. ScrollTrigger for Document Layout Details (Dossier page)
+  const docElements = gsap.utils.toArray('.doc-content > *');
+  if (docElements.length > 0) {
+    gsap.fromTo('.doc-header', 
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.2, ease: "power3.out", delay: 0.3 }
+    );
+
+    docElements.forEach((el) => {
+      gsap.fromTo(el, 
+        { y: 30, opacity: 0 },
+        {
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    });
+  }
+}
+
+// --- Mermaid ---
+function initMermaid() {
+  if (typeof mermaid === 'undefined') return;
   const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-  window.mermaid.initialize({
+  const primary = getComputedStyle(document.documentElement).getPropertyValue('--logo-primary').trim();
+  const secondary = getComputedStyle(document.documentElement).getPropertyValue('--logo-secondary').trim();
+  
+  mermaid.initialize({
     startOnLoad: true,
-    theme: isDark ? "dark" : "base",
-    securityLevel: "loose",
+    theme: 'base',
     themeVariables: {
-      fontFamily: '"Monaco", monospace',
-      fontSize: "11px",
-      primaryColor: isDark ? "#111111" : "#fcfcfc",
-      primaryTextColor: isDark ? "#ffffff" : "#131313",
-      primaryBorderColor: isDark ? "#333333" : "#e5e5e5",
-      lineColor: isDark ? "#ffffff" : "#131313",
-      secondaryColor: isDark ? "#050505" : "#f5f5f5",
-      tertiaryColor: isDark ? "#121212" : "#fafafa",
-      mainBkg: isDark ? "#000000" : "#ffffff",
-      nodeBorder: isDark ? "#333333" : "#e5e5e5",
-      clusterBkg: isDark ? "#050505" : "#f5f5f5",
-      clusterBorder: isDark ? "#333333" : "#e5e5e5",
-      titleColor: isDark ? "#ffffff" : "#131313",
-      edgeLabelBackground: isDark ? "#0a0a0a" : "#ffffff",
-      nodeTextColor: isDark ? "#ffffff" : "#131313"
+      primaryColor: isDark ? '#1a1a1a' : '#fafafa',
+      primaryTextColor: primary,
+      primaryBorderColor: secondary,
+      lineColor: primary,
+      secondaryColor: isDark ? '#222' : '#f0f0f0',
+      tertiaryColor: isDark ? '#333' : '#e5e5e5'
     },
-    flowchart: { curve: "basis", htmlLabels: true },
-    gantt: { barHeight: 20, topPadding: 40, gridLineStartPadding: 30 }
+    fontFamily: '"IBM Plex Mono", "Monaco", monospace'
   });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  initTheme();
+  initGSAP();
+  initMermaid();
+});
