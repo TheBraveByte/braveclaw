@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap');
 
 :root {
-  /* Colors - Enforced Dark Theme for Premium Aesthetic */
-  --bg: #07090f;
-  --s1: #0d1117;
-  --s2: #111827;
-  --ink: #ffffff;
-  --ink-light: #aaa;
-  --line: #1e2d3d;
-  --line-strong: #263547;
-  --hover-bg: #0d1117;
+  /* Colors - Light Theme for Premium Aesthetic */
+  --bg: #ffffff;
+  --s1: #fafafa;
+  --s2: #f4f4f5;
+  --ink: #000000;
+  --ink-light: #555555;
+  --line: rgba(0,0,0,0.1);
+  --line-strong: rgba(0,0,0,0.2);
+  --hover-bg: #fafafa;
   
-  --logo-primary: #ffffff;
-  --logo-secondary: #aaa;
+  --logo-primary: #000000;
+  --logo-secondary: #aaaaaa;
 
   /* Typography */
   --serif: 'Cormorant Garamond', serif;
@@ -23,6 +23,19 @@
   --max-width: 1400px;
   --nav-height: 100px;
   --transition: 400ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+[data-theme="dark"] {
+  --bg: #07090f;
+  --s1: #0d1117;
+  --s2: #111827;
+  --ink: #ffffff;
+  --ink-light: #aaa;
+  --line: #1e2d3d;
+  --line-strong: #263547;
+  --hover-bg: #0d1117;
+  --logo-primary: #ffffff;
+  --logo-secondary: #aaa;
 }
 
 * {
@@ -114,8 +127,25 @@ img {
   transform-origin: left;
 }
 
-/* Theme Toggle Removed - Global Dark Mode Enforced */
-.theme-toggle { display: none; }
+/* Theme Toggle Restored */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 8px 16px;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all var(--transition);
+}
+
+.theme-toggle:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
 
 /* Main Layout */
 .page-container {
