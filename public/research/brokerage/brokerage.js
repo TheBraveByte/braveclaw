@@ -1,44 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Mermaid
-  const isDark = true; // Defaulting to dark for this design
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const rootStyles = getComputedStyle(document.documentElement);
+  const bg = rootStyles.getPropertyValue('--bg').trim() || (isDark ? '#07090f' : '#ffffff');
+  const surface1 = rootStyles.getPropertyValue('--s1').trim() || (isDark ? '#0d1117' : '#fafafa');
+  const surface2 = rootStyles.getPropertyValue('--s2').trim() || (isDark ? '#111827' : '#f4f4f5');
+  const border = rootStyles.getPropertyValue('--border').trim() || (isDark ? '#1a2433' : 'rgba(0, 0, 0, 0.14)');
+  const borderStrong = rootStyles.getPropertyValue('--border2').trim() || (isDark ? '#242f44' : 'rgba(0, 0, 0, 0.24)');
+  const textPrimary = rootStyles.getPropertyValue('--white').trim() || (isDark ? '#ffffff' : '#111827');
+  const textBody = rootStyles.getPropertyValue('--text').trim() || (isDark ? '#cbd5e1' : '#1f2937');
+  const muted = rootStyles.getPropertyValue('--muted').trim() || (isDark ? '#64748b' : '#6b7280');
   
   mermaid.initialize({
     startOnLoad: true,
     theme: 'base',
     themeVariables: {
-      darkMode: true,
-      background: '#0a0d14',
-      mainBkg: '#0f141e',
-      nodeBorder: '#1a2433',
-      lineColor: '#ffffff',
-      primaryColor: '#0f141e',
-      primaryTextColor: '#ffffff',
-      primaryBorderColor: '#242f44',
-      secondaryColor: '#0a0d14',
-      tertiaryColor: '#05070a',
-      edgeLabelBackground: '#0f141e',
-      actorBkg: '#0f141e',
-      actorBorder: '#ffffff',
-      actorTextColor: '#ffffff',
-      actorLineColor: '#ffffff',
-      signalColor: '#cbd5e1',
-      signalTextColor: '#ffffff',
-      labelBoxBkgColor: '#0f141e',
-      labelBoxBorderColor: '#242f44',
-      labelTextColor: '#ffffff',
-      loopTextColor: '#ffffff',
-      noteBorderColor: '#64748b',
-      noteBkgColor: '#1a2433',
-      noteTextColor: '#ffffff',
-      activationBorderColor: '#ffffff',
-      activationBkgColor: '#1a2433',
-      sequenceNumberColor: '#ffffff',
+      darkMode: isDark,
+      background: bg,
+      mainBkg: surface2,
+      nodeBorder: border,
+      lineColor: textPrimary,
+      primaryColor: surface2,
+      primaryTextColor: textPrimary,
+      textColor: textPrimary,
+      primaryBorderColor: borderStrong,
+      secondaryColor: surface1,
+      tertiaryColor: bg,
+      edgeLabelBackground: bg,
+      actorBkg: surface2,
+      actorBorder: textPrimary,
+      actorTextColor: textPrimary,
+      actorLineColor: textPrimary,
+      signalColor: textBody,
+      signalTextColor: textPrimary,
+      labelBoxBkgColor: surface2,
+      labelBoxBorderColor: borderStrong,
+      labelTextColor: textPrimary,
+      loopTextColor: textPrimary,
+      noteBorderColor: muted,
+      noteBkgColor: surface1,
+      noteTextColor: textPrimary,
+      activationBorderColor: textPrimary,
+      activationBkgColor: surface1,
+      sequenceNumberColor: textPrimary,
       fontFamily: '"Space Grotesk", sans-serif',
       fontSize: '13px',
-      stateBkg: '#0f141e',
-      stateBorder: '#242f44'
+      stateBkg: surface2,
+      stateBorder: borderStrong,
+      sectionBkgColor: bg,
+      altSectionBkgColor: surface1,
+      gridColor: border,
+      todayLineColor: textPrimary
     },
-    flowchart: { curve: 'cardinal', padding: 20, htmlLabels: true },
+    flowchart: { curve: 'cardinal', padding: 20, htmlLabels: false },
     sequence: { actorMargin: 50, width: 140, height: 50 }
   });
 

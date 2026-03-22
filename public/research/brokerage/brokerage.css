@@ -18,6 +18,39 @@
   --white: #ffffff;
 }
 
+html:not([data-theme]),
+html[data-theme="light"] {
+  --bg: #ffffff;
+  --s1: #fafafa;
+  --s2: #f4f4f5;
+  --s3: #ececf1;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --muted2: #4b5563;
+  --white: #111827;
+  --accent-dim: rgba(0, 0, 0, 0.03);
+  --accent-border: rgba(0, 0, 0, 0.1);
+  --blue-dim: rgba(0, 0, 0, 0.05);
+  --border: rgba(0, 0, 0, 0.14);
+  --border2: rgba(0, 0, 0, 0.24);
+}
+
+html[data-theme="dark"] {
+  --bg: #05070a;
+  --s1: #0a0d14;
+  --s2: #0f141e;
+  --s3: #161c2b;
+  --text: #cbd5e1;
+  --muted: #64748b;
+  --muted2: #94a3b8;
+  --white: #ffffff;
+  --accent-dim: rgba(255, 255, 255, 0.03);
+  --accent-border: rgba(255, 255, 255, 0.1);
+  --blue-dim: rgba(255, 255, 255, 0.05);
+  --border: #1a2433;
+  --border2: #242f44;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
@@ -426,6 +459,29 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 64px 0; }
 
 .b-green { border-color: #22c55e; color: #22c55e; background: rgba(34, 197, 94, 0.05); }
 .b-blue { border-color: #3b82f6; color: #3b82f6; background: rgba(59, 130, 246, 0.05); }
+
+/* ── LIGHT MODE SUPPORT FOR CODE / MERMAID ── */
+.diagram-wrap .diagram-inner {
+  overflow-x: auto;
+}
+
+.diagram-wrap .mermaid svg {
+  min-width: 550px;
+}
+
+[data-theme="light"] .zoom-controls {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: var(--border);
+}
+
+[data-theme="light"] .zoom-btn {
+  background: var(--s1);
+  color: var(--white);
+}
+
+[data-theme="light"] .zoom-btn:hover {
+  background: var(--s2);
+}
 
 @media (max-width: 850px) {
   nav { display: none; }

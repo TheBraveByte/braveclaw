@@ -54,6 +54,15 @@ body {
   transition: background-color var(--transition), color var(--transition);
 }
 
+html:not([data-theme]),
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -435,13 +444,86 @@ img {
   margin: 0 auto;
 }
 
-code, .mono-text {
+pre {
+  margin: 24px 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--s2);
+  color: var(--ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+pre code {
+  display: block;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  border-radius: 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+code:not(pre code), .mono-text {
   font-family: var(--mono);
   font-size: 0.85em;
   background: var(--hover-bg);
   padding: 4px 8px;
   border-radius: 4px;
   color: var(--ink);
+}
+
+.mermaid svg {
+  max-width: none;
+  height: auto;
+}
+
+.mermaid svg text,
+.mermaid svg tspan,
+.mermaid svg .label,
+.mermaid svg foreignObject div {
+  fill: var(--ink) !important;
+  color: var(--ink) !important;
+}
+
+.mermaid svg .node rect,
+.mermaid svg .node circle,
+.mermaid svg .node ellipse,
+.mermaid svg .node polygon,
+.mermaid svg .node path,
+.mermaid svg .cluster rect,
+.mermaid svg .actor,
+.mermaid svg .task,
+.mermaid svg .state-note rect,
+.mermaid svg .note rect,
+.mermaid svg .labelBox,
+.mermaid svg .labelBkg {
+  fill: var(--s1) !important;
+  stroke: var(--line-strong) !important;
+}
+
+.mermaid svg .edgeLabel rect,
+.mermaid svg .edgeLabel path,
+.mermaid svg .loopText rect {
+  fill: var(--bg) !important;
+  stroke: var(--line-strong) !important;
+}
+
+.mermaid svg .edgePath path,
+.mermaid svg .flowchart-link,
+.mermaid svg .messageLine0,
+.mermaid svg .messageLine1,
+.mermaid svg .loopLine,
+.mermaid svg .task-line,
+.mermaid svg .transition {
+  stroke: var(--ink) !important;
+}
+
+.mermaid svg marker path,
+.mermaid svg .marker {
+  fill: var(--ink) !important;
+  stroke: var(--ink) !important;
 }
 
 @media (max-width: 768px) {
@@ -538,4 +620,3 @@ code, .mono-text {
 .section { margin-bottom: 96px; }
 .section > h2 { font-family: var(--serif); font-size: clamp(28px, 4.5vw, 42px); font-weight: 400; margin: 0 0 16px; line-height: 1.1; letter-spacing: -0.02em; }
 .section > .lead { color: var(--ink-light); font-size: 1.15rem; max-width: 700px; line-height: 1.6; margin-bottom: 40px; }
-

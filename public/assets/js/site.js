@@ -7,18 +7,18 @@
 function initTheme() {
   const themeToggle = document.getElementById("theme-toggle");
   const html = document.documentElement;
-  
-  if (!themeToggle) return;
 
   // Retrieve saved theme or default to light
   let currentTheme = localStorage.getItem("theme");
-  
-  // Apply initial theme
-  if (currentTheme) {
-    html.setAttribute("data-theme", currentTheme);
-  } else {
+
+  if (currentTheme !== "dark" && currentTheme !== "light") {
     currentTheme = "light";
   }
+
+  // Always set the attribute so dossier pages can resolve theme-specific CSS reliably.
+  html.setAttribute("data-theme", currentTheme);
+
+  if (!themeToggle) return;
 
   updateToggleText(currentTheme === "dark");
 
@@ -118,12 +118,19 @@ function initMermaid() {
     themeVariables: {
       primaryColor: isDark ? '#1a1a1a' : '#fafafa',
       primaryTextColor: primary,
+      textColor: primary,
       primaryBorderColor: secondary,
       lineColor: primary,
       secondaryColor: isDark ? '#222' : '#f0f0f0',
-      tertiaryColor: isDark ? '#333' : '#e5e5e5'
+      tertiaryColor: isDark ? '#333' : '#e5e5e5',
+      edgeLabelBackground: isDark ? '#111827' : '#ffffff',
+      actorTextColor: primary,
+      labelTextColor: primary,
+      noteTextColor: primary,
+      loopTextColor: primary
     },
-    fontFamily: '"IBM Plex Mono", "Monaco", monospace'
+    fontFamily: '"IBM Plex Mono", "Monaco", monospace',
+    flowchart: { htmlLabels: false }
   });
 }
 
