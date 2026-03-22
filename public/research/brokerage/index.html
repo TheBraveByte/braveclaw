@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brokerage Module — Alpaca Integration Brief</title>
+<meta name="description" content="A complete product and technical architecture document covering account opening, funding, and trading via Alpaca Broker API.">
+<!-- GSAP & ScrollTrigger for core animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<!-- Mermaid -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+
+<link rel="stylesheet" href="brokerage.css">
+<link rel="stylesheet" href="../../assets/css/site.css">
+
+<style>
+  body { display: flex; flex-direction: row; margin: 0; padding: 0; min-height: 100vh; background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif;}
+  .site-header { display: none; }
+  .site-footer { display: none; }
+  main { padding: 0 48px 80px; max-width: 920px; margin: 0 auto; flex: 1; overflow-x: hidden; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR NAV -->
+<nav id="sidenav" class="reveal">
+  <div class="nav-logo">
+    <div class="name">Broker<span>age</span></div>
+    <div class="sub">Alpaca Integration</div>
+    <div style="margin-top:12px; display: flex; align-items: center; justify-content: space-between;">
+      <a href="../index.html" style="padding-left:0; font-size:10px; opacity:0.6; display:inline-block; margin-top:2px;">← Findings</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme" style="padding:4px 8px; font-size:8px;">
+        <span class="theme-icon">Dark</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav-section">Overview</div>
+  <a href="#vision" class="active">Product Goal</a>
+  <a href="#features">Core Features</a>
+
+  <div class="nav-section">User Journey</div>
+  <a href="#onboarding">Onboarding & KYC</a>
+  <a href="#funding">Wallet Funding</a>
+  <a href="#trading">Trading Experience</a>
+
+  <div class="nav-section">System Design</div>
+  <a href="#architecture">Module Architecture</a>
+  <a href="#data-model">Data Model</a>
+  <a href="#security">Security & Compliance</a>
+
+  <div class="nav-section">Execution</div>
+  <a href="#roadmap">Build Phases</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+
+  <!-- HERO -->
+  <div class="hero reveal">
+    <div class="tag">● Internal Strategy — Confidential</div>
+    <h1>Building the <em>Brokerage Module</em><br>Powered by Alpaca</h1>
+    <p>A comprehensive technical design for integrating US Equities trading into the platform, leveraging the existing wallet system and KYC infrastructure.</p>
+    <div class="hero-meta">
+      <div class="m">DOCUMENT TYPE<span>Architecture & Strategy</span></div>
+      <div class="m">VERSION<span>v1.0 — March 2026</span></div>
+      <div class="m">AUDIENCE<span>Engineering + Product</span></div>
+      <div class="m">STATUS<span>Execution Mode</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: GOAL -->
+  <section class="section reveal" id="vision">
+    <div class="section-tag">01 — The Goal</div>
+    <h2>Bridging Wallets and Wall Street</h2>
+    <p class="lead">The Brokerage Module enables users to open broker accounts, fund them from their local wallet, and trade US equities directly within the app.</p>
+
+    <div class="callout">
+      <strong>Product Path:</strong> We are launching with <strong>Path A</strong> — an Alpaca-backed brokerage for US equities, allowing users to fund investments from their NGN wallet while trading in USD.
+    </div>
+
+    <div class="grid grid-2" style="margin-top:24px">
+      <div class="card accent-top">
+        <div class="card-label">The Partnership</div>
+        <h3>Alpaca Broker API</h3>
+        <p>Alpaca provides the full brokerage lifecycle: account opening, clearing, custody, and trade execution. Our module acts as the orchestration layer between Alpaca and our core systems.</p>
+      </div>
+      <div class="card blue-top">
+        <div class="card-label">Asset Scope</div>
+        <h3>US Equities (LCT)</h3>
+        <p>Leveraging Local Currency Trading (LCT) to allow Nigerian users to trade US stocks using their local currency (NGN) wallet balance as the ultimate source of funds.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- SECTION 2: CORE FEATURES -->
+  <section class="section reveal" id="features">
+    <div class="section-tag">02 — Core Features</div>
+    <h2>The Investment Experience</h2>
+    <p class="lead">Built to be seamless, the module covers everything from regulatory suitability to fractional trading.</p>
+
+    <div class="grid grid-3" style="margin-top:20px">
+      <div class="card">
+        <div class="card-label">Feature B-01</div>
+        <h3>Broker Onboarding</h3>
+        <p>Risk-profile suitability questionnaire, tax residency capture, and disclosure acceptance mapped to Alpaca's requirements.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature B-02</div>
+        <h3>Wallet Funding</h3>
+        <p>Direct journal movements from the platform wallet to brokerage cash. Supports deposits and withdrawals back to local bank accounts.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature B-03</div>
+        <h3>Fractional Trading</h3>
+        <p>Buy stocks by dollar amount instead of share count. Lowers the barrier to entry for users with smaller wallet balances.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature B-04</div>
+        <h3>Portfolio Insights</h3>
+        <p>Real-time unrealized PnL, market value tracking, and position snapshots synced with Alpaca's ledger.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature B-05</div>
+        <h3>Regulatory Docs</h3>
+        <p>Automated retrieval of monthly statements, trade confirmations, and tax documents (1099/8-2-1) via API.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Feature B-06</div>
+        <h3>Real-time Alerts</h3>
+        <p>Push/SMS notifications for order fills, account approvals, and funding status updates driven by SSE events.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- SECTION 3: ONBOARDING -->
+  <section class="section reveal" id="onboarding">
+    <div class="section-tag">03 — User Journey</div>
+    <h2>Onboarding & Compliance</h2>
+    <p class="lead">We reuse existing KYC data while capturing additional broker-specific identifiers and suitability profiles.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Capture Suitability Data</h4>
+          <p>User provides employment status, income range, net worth, and investment experience. This is required for FINRA/SEC compliance.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Tax & Identity Mapping</h4>
+          <p>Capture Tax ID (TIN) and confirm country of tax residence. Map existing government ID records to Alpaca's onboarding schema.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Disclosure Acceptance</h4>
+          <p>User reviews and accepts Alpaca's account agreement, margin disclosure (even for cash accounts), and risk disclosures.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Alpaca Account Creation</h4>
+          <p>Our backend calls `POST /v1/accounts` on Alpaca. If `ACTION_REQUIRED`, we trigger a document upload flow in-app.</p>
+          <div class="tags"><span class="badge b-blue">Alpaca Broker API</span><span class="badge b-green">KYC Internal</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram-wrap" style="margin-top:32px">
+      <div class="mermaid">
+flowchart TD
+    A([📱 User starts Brokerage Setup]) --> B[Suitability Questionnaire]
+    B --> C[Tax ID & Residency Capture]
+    C --> D[Review Disclosures]
+    D --> E{Submit to Alpaca}
+    E -->|ACTIVE| F[✅ Account Ready]
+    E -->|APPROVAL_PENDING| G[⏳ Manual Review]
+    E -->|ACTION_REQUIRED| H[📁 Upload Documents]
+    H --> E
+    G -->|Approved| F
+    G -->|Rejected| I([❌ Rejected])
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- SECTION 4: FUNDING -->
+  <section class="section reveal" id="funding">
+    <div class="section-tag">04 — Funding Flow</div>
+    <h2>Wallet Integration</h2>
+    <p class="lead">Security-first cash management. We treat the app wallet as the source and Alpaca's cash ledger as the destination.</p>
+
+    <div class="callout callout-blue">
+      <strong>Ledger Isolation:</strong> We never treat wallet balance and brokerage cash as the same ledger. Every movement is a recorded journal event with multi-stage verification.
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="mermaid">
+sequenceDiagram
+    actor U as User
+    participant W as App Wallet
+    participant B as Brokerage Module
+    participant A as Alpaca Broker API
+
+    U->>B: Request Deposit (e.g. 50,000 NGN)
+    B->>B: Validate PIN & KYC Status
+    B->>W: Place Reserve/Hold (Pending)
+    B->>A: POST /v1/accounts/{id}/transfers (LCT)
+    A-->>B: Transfer Confirmed
+    B->>W: Finalize Debit (Settled)
+    B->>B: Mark Movement as COMPLETED
+    B-->>U: 🎉 Funds available for trading
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- SECTION 5: TRADING EXPERIENCE -->
+  <section class="section reveal" id="trading">
+    <div class="section-tag">05 — Trading Engine</div>
+    <h2>Order Lifecycle & Fractional Trading</h2>
+    <p class="lead">The core of the brokerage experience. We optimize for high-availability quotes and low-latency order submission.</p>
+
+    <div class="grid grid-2">
+      <div class="card accent-top">
+        <div class="card-label">Execution Model</div>
+        <h3>Market & Limit Orders</h3>
+        <p>Support for instant market execution and price-sensitive limit orders. Users can specify "Time in Force" (Day vs GTC) to manage their trading strategy effectively.</p>
+      </div>
+      <div class="card blue-top">
+        <div class="card-label">Fractional Shares</div>
+        <h3>Notional-based Investing</h3>
+        <p>Allowing users to invest as little as $1 in expensive stocks like Amazon or Google. Our engine calculates the exact fractional share count based on the current market price.</p>
+      </div>
+    </div>
+
+    <div class="diagram-wrap" style="margin-top:32px">
+      <div class="mermaid">
+stateDiagram-v2
+    [*] --> NEW: Order Submitted
+    NEW --> PENDING: Validated & Sent to Alpaca
+    PENDING --> FILLED: Execution Confirmed
+    PENDING --> PARTIAL: Partially Executed
+    PARTIAL --> FILLED: Remaining Qty Executed
+    PENDING --> CANCELED: User Canceled
+    PENDING --> REJECTED: Provider Rejected
+    FILLED --> [*]
+    CANCELED --> [*]
+    REJECTED --> [*]
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- SECTION 6: ARCHITECTURE -->
+  <section class="section reveal" id="architecture">
+    <div class="section-tag">06 — System Design</div>
+    <h2>Module Architecture</h2>
+    <p class="lead">A three-tiered approach: User/Wallet Layer, Brokerage Domain, and Alpaca Integration.</p>
+
+    <div class="diagram-wrap">
+      <div class="mermaid">
+graph TB
+    subgraph CLIENT["📱 Client Apps"]
+      direction LR
+      IOS[iOS]
+      AND[Android]
+      WEB[Web]
+    end
+
+    subgraph MODULE["📦 pkg/brokerage"]
+      H[Handlers API]
+      S[Services Logic]
+      R[Repositories Persistence]
+      P[Provider Alpaca]
+    end
+
+    subgraph CORE["⚙️ Core Services"]
+      W[Wallet Domain]
+      K[KYC / Identity]
+      U[User / PIN Service]
+    end
+
+    subgraph EXT["🔌 External API"]
+        AL[Alpaca Broker API]
+        SSE[SSE Event Stream]
+    end
+
+    CLIENT --> H
+    H --> S
+    S --> R
+    S --> P
+    S --> W
+    S --> K
+    S --> U
+    P --> AL
+    SSE --> S
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- SECTION 6: DATA MODEL -->
+  <section class="section reveal" id="data-model">
+    <div class="section-tag">06 — Data Persistence</div>
+    <h2>Core Entities</h2>
+    <p class="lead">The internal source of truth for all brokerage activity.</p>
+
+    <div style="overflow-x:auto;">
+    <table class="int-table">
+      <thead>
+        <tr>
+          <th>Entity</th>
+          <th>Key Fields</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="iname">broker_accounts</div></td>
+          <td>user_id, status, provider_id, account_number, currency</td>
+          <td>Local mirror of the Alpaca account status and metadata.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">broker_suitability_profiles</div></td>
+          <td>risk_tolerance, income_range, tax_id_masked, accepted_disclosures</td>
+          <td>Compliance record for suitability and disclosure versioning.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">broker_cash_movements</div></td>
+          <td>wallet_ref, amount, currency, status, fx_rate</td>
+          <td>Audit trail for all wallet-to-broker funding actions.</td>
+        </tr>
+        <tr>
+          <td><div class="iname">broker_orders</div></td>
+          <td>symbol, side, qty, notional, status, limit_price</td>
+          <td>Tracking the lifecycle of trade orders (Market, Limit, etc.).</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- SECTION 7: DOCUMENTS & REPORTING -->
+  <section class="section reveal" id="documents">
+    <div class="section-tag">07 — Compliance & Reporting</div>
+    <h2>Automated Document Delivery</h2>
+    <p class="lead">Ensuring users stay compliant with tax and regulatory requirements without manual effort.</p>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="card-label">Form 1099-B</div>
+        <h3>Tax Reporting</h3>
+        <p>Automated generation of tax documents for realized gains and losses, essential for US and local tax filings.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Daily Confirms</div>
+        <h3>Trade Confirmations</h3>
+        <p>Digital trade confirms delivered via push notification and stored in the user's document vault within 24h of execution.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Monthly Audit</div>
+        <h3>Account Statements</h3>
+        <p>Comprehensive monthly PDF statements covering all cash movements, trades, and ending portfolio value.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- SECTION 8: SECURITY -->
+  <section class="section reveal" id="security">
+    <div class="section-tag">08 — Security</div>
+    <h2>Safety & Risk Mitigation</h2>
+    <p class="lead">Protecting both user assets and the platform's regulatory standing.</p>
+
+    <div class="grid grid-2">
+      <div class="card accent-top">
+        <div class="card-label">Two-Factor Auth</div>
+        <h3>Transaction PIN + Biometrics</h3>
+        <p>Requiring the existing user transaction PIN for every order placement and funding withdrawal. Layered with device-level biometrics for secondary verification.</p>
+      </div>
+      <div class="card blue-top">
+        <div class="card-label">Risk Controls</div>
+        <h3>Anti-Money Laundering (AML)</h3>
+        <p>Continuous monitoring of account activity for suspicious patterns, integrated with Alpaca's own compliance engine and local regulatory checklists.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <!-- SECTION 9: ROADMAP -->
+  <section class="section reveal" id="roadmap">
+    <div class="section-tag">07 — Roadmap</div>
+    <h2>Delivery Phases</h2>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num">01</div>
+        <div>
+          <h3>Foundation</h3>
+          <ul class="phase-items">
+            <li>Scaffold `pkg/brokerage` structure</li>
+            <li>Implement Alpaca Auth & Client</li>
+            <li>Develop Suitability & Account Models</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">02</div>
+        <div>
+          <h3>Onboarding & KYC</h3>
+          <ul class="phase-items">
+            <li>Account creation API integration</li>
+            <li>Document upload flow (ACTION_REQUIRED)</li>
+            <li>Account status sync jobs</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">03</div>
+        <div>
+          <h3>Funding & Trading</h3>
+          <ul class="phase-items">
+            <li>Wallet-to-Broker journal movements</li>
+            <li>Order preview & execution</li>
+            <li>SSE Event consumer for real-time updates</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="brokerage.js"></script>
+</body>
+</html>
